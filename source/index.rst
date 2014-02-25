@@ -3,10 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to 跟我一起写Makefile's documentation!
-==============================================
+跟我一起写Makefile
+==================
 
-Contents:
+目录:
 
 .. toctree::
    :maxdepth: 2
