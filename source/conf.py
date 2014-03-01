@@ -64,7 +64,7 @@ language = 'zh_CN'
 # non-false value, then it is used:
 #today = ''
 # Else, today_fmt is used as the format for a strftime call.
-#today_fmt = '%B %d, %Y'
+#today_fmt = '%Y-%m-%d'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -200,14 +200,17 @@ latex_elements = {
 \XeTeXlinebreakskip = 0pt plus 1pt
 \setcounter{tocdepth}{3}
 ''',
+'releasename' : 'By SeisMan@GitHub',
+'release' : '',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', 'Makefile.tex', u'跟我一起写Makefile',
-   u'陈皓', 'manual', True),
+   ('index', 'Makefile.tex', 
+   u'跟我一起写Makefile (PDF重制版)',
+   u'作者: 陈皓', 'manual', True),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
