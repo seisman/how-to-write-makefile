@@ -6,15 +6,14 @@
 跟我一起写Makefile
 ==================
 
-目录:
+Contents:
 
 .. toctree::
    :maxdepth: 2
-   
+
    overview
    introduction
-
-
+   rules
 
 Indices and tables
 ==================
