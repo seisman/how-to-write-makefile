@@ -6,7 +6,7 @@
 跟我一起写Makefile
 ==================
 
-Contents:
+目录:
 
 .. toctree::
    :maxdepth: 3
