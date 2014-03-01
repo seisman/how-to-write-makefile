@@ -199,6 +199,7 @@ latex_elements = {
 \setCJKmonofont{SimHei}
 \XeTeXlinebreaklocale "zh"
 \XeTeXlinebreakskip = 0pt plus 1pt
+\setcounter{tocdepth}{3}
 ''',
 }
 
