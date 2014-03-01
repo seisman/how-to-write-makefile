@@ -14,6 +14,7 @@ Contents:
    overview
    introduction
    rules
+   recipes
 
 Indices and tables
 ==================
