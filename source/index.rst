@@ -15,6 +15,13 @@ Contents:
    introduction
    rules
    recipes
+   variables
+   conditionals
+   functions
+   invoke
+   implicit_rules
+   archives
+   postscript
 
 Indices and tables
 ==================

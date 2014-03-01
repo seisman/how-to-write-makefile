@@ -195,6 +195,8 @@ latex_elements = {
 'preamble': r'''
 \usepackage{xeCJK}
 \setCJKmainfont{SimSun}
+\setCJKsansfont{KaiTi}
+\setCJKmonofont{SimHei}
 \XeTeXlinebreaklocale "zh"
 \XeTeXlinebreakskip = 0pt plus 1pt
 ''',
