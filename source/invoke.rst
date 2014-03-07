@@ -103,11 +103,12 @@ make的参数
 ``-B``, ``--always-make``
     认为所有的目标都需要更新（重编译）。
 
-``-C`` *<dir>*, ``--directory``\ = *<dir>*
+``-C`` *<dir>*, ``--directory``\ =\ *<dir>*
     指定读取makefile的目录。如果有多个“-C”参数，make的解释是后面的路径以前面的作为相对路径，并以最后的目录作为被指定目录。如：“make -C ~hchen/test -C prog”等价于“make -C ~hchen/test/prog”。
 
-``-debug`` [= *<options>*]
+``-debug``\ [=\ *<options>*]
     输出make的调试信息。它有几种不同的级别可供选择，如果没有参数，那就是输出最简单的调试信息。下面是<options>的取值：
+
     - a: 也就是all，输出所有的调试信息。（会非常的多）
     - b: 也就是basic，只输出简单的调试信息。即输出不需要重编译的目标。
     - v: 也就是verbose，在b选项的级别之上。输出的信息包括哪个makefile被解析，不需要被重编译的依赖文件（或是依赖目标）等。
@@ -121,7 +122,7 @@ make的参数
 ``-e``, ``--environment-overrides``
     指明环境变量的值覆盖makefile中定义的变量的值。
 
-``-f``\ = *<file>*, ``--file``\ = *<file>*, ``--makefile``\ = *<file>*
+``-f``\ =\ *<file>*, ``--file``\ =\ *<file>*, ``--makefile``\ =\ *<file>*
     指定需要执行的makefile。
 
 ``-h``, ``--help``
@@ -130,7 +131,7 @@ make的参数
 ``-i`` , ``--ignore-errors``
     在执行时忽略所有的错误。
 
-``-I`` *<dir>*, ``--include-dir``\ = *<dir>*
+``-I`` *<dir>*, ``--include-dir``\ =\ *<dir>*
     指定一个被包含makefile的搜索目标。可以使用多个“-I”参数来指定多个目录。
 
 ``-j`` [*<jobsnum>*], ``--jobs``\ [=\ *<jobsnum>*]

@@ -245,7 +245,7 @@ Makefile的文件名
 
 默认的情况下，make命令会在当前目录下按顺序找寻文件名为“GNUmakefile”、“makefile”、“Makefile”的文件，找到了解释这个文件。在这三个文件名中，最好使用“Makefile”这个文件名，因为，这个文件名第一个字符为大写，这样有一种显目的感觉。最好不要用“GNUmakefile”，这个文件是GNU的make识别的。有另外一些make只对全小写的“makefile”文件名敏感，但是基本上来说，大多数的make都支持“makefile”和“Makefile”这两种默认文件名。
 
-当然，你可以使用别的文件名来书写Makefile，比如：“Make.Linux”，“Make.Solaris”，“Make.AIX”等，如果要指定特定的Makefile，你可以使用make的“-f”和“--file”参数，如：\ ``make -f Make.Linux``\ 或\ ``make --file Make.AIX``\ 。
+当然，你可以使用别的文件名来书写Makefile，比如：“Make.Linux”，“Make.Solaris”，“Make.AIX”等，如果要指定特定的Makefile，你可以使用make的\ ``-f``\ 和\ ``--file``\ 参数，如：\ ``make -f Make.Linux``\ 或\ ``make --file Make.AIX``\ 。
 
 引用其它的Makefile
 ------------------
@@ -272,7 +272,7 @@ filename可以是当前操作系统Shell的文件模式（可以包含路径和�
 
 make命令开始时，会找寻include所指出的其它Makefile，并把其内容安置在当前的位置。就好像C/C++的#include指令一样。如果文件都没有指定绝对路径或是相对路径的话，make会在当前目录下首先寻找，如果当前目录下没有找到，那么，make还会在下面的几个目录下找： 
 
-#. 如果make执行时，有“-I”或“--include-dir”参数，那么make就会在这个参数所指定的目录下去寻找。 
+#. 如果make执行时，有“\ ``-I``\ ”或“\ ``--include-dir``\ ”参数，那么make就会在这个参数所指定的目录下去寻找。 
 #. 如果目录<prefix>/include（一般是：/usr/local/bin或/usr/include）存在的话，make也会去找。
 
 如果有文件没有找到的话，make会生成一条警告信息，但不会马上出现致命错误。它会继续载入其它的文件，一旦完成makefile的读取，make会再重试这些没有找到，或是不能读取的文件，如果还是不行，make才会出现一条致命信息。如果你想让make不理那些无法读取的文件，而继续执行，你可以在include前加一个减号“-”。如： 

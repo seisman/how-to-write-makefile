@@ -197,7 +197,10 @@ latex_elements = {
 \setCJKmonofont{SimHei}
 \XeTeXlinebreaklocale "zh"
 \XeTeXlinebreakskip = 0pt plus 1pt
+\parindent 2em
 \setcounter{tocdepth}{3}
+\renewcommand\familydefault{\ttdefault}
+\renewcommand\CJKfamilydefault{\CJKrmdefault}
 ''',
 'releasename' : 'By SeisMan@GitHub',
 'release' : '',
