@@ -44,7 +44,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'跟我一起写Makefile'
-copyright = u'2014, 作者：陈皓；排版：SeisMan'
+copyright = u'2014-2015, 作者：陈皓；排版：SeisMan'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -95,10 +95,16 @@ pygments_style = 'sphinx'
 
 
 # -- Options for HTML output ----------------------------------------------
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'sphinx_rtd_theme'
+if on_rtd:
+    html_theme = 'default'
+else:
+    import sphinx_rtd_theme
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -107,7 +113,6 @@ html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
-html_theme_path = ["_themes",] 
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -182,35 +187,56 @@ htmlhelp_basename = 'Makefiledoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
-latex_elements = {
-# The paper size ('letterpaper' or 'a4paper').
-'papersize': 'a4paper',
+if on_rtd:
+    latex_elements = {
+        # The paper size ('letterpaper' or 'a4paper').
+        'papersize': 'a4paper',
 
-# The font size ('10pt', '11pt' or '12pt').
-'pointsize': '11pt',
+        # The font size ('10pt', '11pt' or '12pt').
+        'pointsize': '11pt',
 
-# Additional stuff for the LaTeX preamble.
-'preamble': r'''
-\usepackage{xeCJK}
-\setCJKmainfont{SimSun}
-\setCJKsansfont{KaiTi}
-\setCJKmonofont{SimHei}
-\XeTeXlinebreaklocale "zh"
-\XeTeXlinebreakskip = 0pt plus 1pt
-\parindent 2em
-\setcounter{tocdepth}{3}
-\renewcommand\familydefault{\ttdefault}
-\renewcommand\CJKfamilydefault{\CJKrmdefault}
-''',
-'releasename' : 'By SeisMan@GitHub',
-'release' : '',
-}
+        # Additional stuff for the LaTeX preamble.
+        'preamble': r'''
+            \hypersetup{unicode=true}
+            \usepackage{CJKutf8}
+            \DeclareUnicodeCharacter{00A0}{\nobreakspace}
+            \DeclareUnicodeCharacter{2203}{\ensuremath{\exists}}
+            \DeclareUnicodeCharacter{2200}{\ensuremath{\forall}}
+            \DeclareUnicodeCharacter{2286}{\ensuremath{\subseteq}}
+            \DeclareUnicodeCharacter{2713}{x}
+            \DeclareUnicodeCharacter{27FA}{\ensuremath{\Longleftrightarrow}}
+            \DeclareUnicodeCharacter{221A}{\ensuremath{\sqrt{}}}
+            \DeclareUnicodeCharacter{221B}{\ensuremath{\sqrt[3]{}}}
+            \DeclareUnicodeCharacter{2295}{\ensuremath{\oplus}}
+            \DeclareUnicodeCharacter{2297}{\ensuremath{\otimes}}
+            \begin{CJK}{UTF8}{gbsn}
+            \AtEndDocument{\end{CJK}}
+    ''',
+    }
+else:
+    latex_elements = {
+        'papersize' : 'a4paper',
+        'utf8extra' : '',
+        'inputenc'  : '',
+        'cmappkg'   : '',
+        'fontenc'   : '',
+        'releasename' : 'By SeisMan@GitHub',
+        'release' : '',
+        'babel'     : r'''\usepackage[english]{babel}''',
+        'preamble' : r'''
+            \usepackage{ctex}
+            \parindent 2em
+            \setcounter{tocdepth}{3}
+            \renewcommand\familydefault{\ttdefault}
+            \renewcommand\CJKfamilydefault{\CJKrmdefault}
+        ''',
+    }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-   ('index', 'Makefile.tex', 
+   ('index', 'Makefile.tex',
    u'跟我一起写Makefile (PDF重制版)',
    u'作者: 陈皓', 'manual', True),
 ]
