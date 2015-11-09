@@ -11,33 +11,39 @@
 相关
 ----
 
-- 书的文字部分来自于\ `Andriki`_\ 提供的Mediawiki源码；
-- 使用\ `Sphinx`_\ 制作文档
+- 书的文字部分来自于 `Andriki`_ 提供的Mediawiki源码；
+- 使用 `Sphinx`_ 制作文档
 - 项目主页：https://github.com/seisman/how-to-write-makefile
 - 网页在线版：http://htwm.readthedocs.org/zh_CN/latest/
 - PDF下载：http://seisman.qiniudn.com/downloads/Makefile.pdf
 - epub下载：http://seisman.qiniudn.com/downloads/Makefile.epub
 
+本地编译
+--------
+
+#. Clone项目到本地::
+
+       $ git clone https://github.com/seisman/how-to-write-makefile.git
+
+#. 安装依赖::
+
+       $ pip install sphinx sphinx_rtd_theme pygments
+
+#. 编译生成HTML::
+
+       $ make html
+       $ firefox build/html/index.html&
+
+#. 编译生成PDF（要求安装TeXLive 2015）::
+
+       $ make xelatexpdf
+       $ evince build/latex/GMT5_Docs.pdf&
+
 sphinx中文支持
 --------------
 
-sphinx在利用LaTeX生成PDF时，对中文支持不够，因而修改sphinx如下:
-
-#. 将\ ``sphinx/texinputs/Makefile``\ 中的\ ``pdflatex``\ 替换成\ ``xelatex``;
-#. 修改\ ``sphinx/writers/latex.py``\ ，在231行左右对中文做特殊处理；
-
-   .. code-block:: python
-
-    if builder.config.language == 'zh_CN':    
-        self.elements['babel'] = ''
-        self.elements['inputenc'] = ''
-        self.elements['utf8extra'] = ''
-
-#. 修改\ ``conf.py``\.
+sphinx和readthedocs网站默认是不支持中文的，因为对 ``conf.py`` 和 ``Makefile`` 做了些许修改。详情参考 `sphinx生成中文PDF <http://seisman.info/chinese-support-for-sphinx.html>`_ 或 `Commit 35288db <https://github.com/seisman/how-to-write-makefile/commit/35288dbcd859abf5107dd6900dca25f0d1b44db7>`_
 
 .. _`陈皓`: http://coolshell.cn/haoel
 .. _`Andriki`: http://andriki.com/mediawiki/index.php?title=Linux:%E8%B7%9F%E6%88%91%E4%B8%80%E8%B5%B7%E5%86%99Makefile
 .. _`Sphinx`: http://sphinx-doc.org/
-
-
-
