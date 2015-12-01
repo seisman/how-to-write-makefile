@@ -312,7 +312,7 @@ join
     $(join <list1>,<list2>)
 
 - 名称：连接函数——join。
-- 功能：把 ``<list2>`` 中的单词对应地加到 ``<list1>`` 的单词后面。如果 ``<list1>`` 的单词个数要比 ``<list2>`` 的多，那么， ``<list1>`` 中的多出来的单词将保持原样。如果 ``<list2>`` 的单词个数要比 ``<list1>`` 多，那么， ``<list2>`` 多出来的单词将被复制到 ``<list2>`` 中。
+- 功能：把 ``<list2>`` 中的单词对应地加到 ``<list1>`` 的单词后面。如果 ``<list1>`` 的单词个数要比 ``<list2>`` 的多，那么， ``<list1>`` 中的多出来的单词将保持原样。如果 ``<list2>`` 的单词个数要比 ``<list1>`` 多，那么， ``<list2>`` 多出来的单词将被复制到 ``<list1>`` 中。
 - 返回：返回连接过后的字符串。
 - 示例： ``$(join aaa bbb , 111 222 333)`` 返回值是 ``aaa111 bbb222 333`` 。
 
@@ -325,7 +325,7 @@ foreach函数和别的函数非常的不一样。因为这个函数是用来做�
 
     $(foreach <var>,<list>,<text>)
 
-这个函数的意思是，把参数 ``<list>```` 中的单词逐一取出放到参数 ``<var>`` 所指定的变量中，然后再执行 ``<text>`` 所包含的表达式。每一次 ``<text>`` 会返回一个字符串，循环过程中， ``<text>`` 的所返回的每个字符串会以空格分隔，最后当整个循环结束时， ``<text>`` 所返回的每个字符串所组成的整个字符串（以空格分隔）将会是foreach函数的返回值。
+这个函数的意思是，把参数 ``<list>`` 中的单词逐一取出放到参数 ``<var>`` 所指定的变量中，然后再执行 ``<text>`` 所包含的表达式。每一次 ``<text>`` 会返回一个字符串，循环过程中， ``<text>`` 的所返回的每个字符串会以空格分隔，最后当整个循环结束时， ``<text>`` 所返回的每个字符串所组成的整个字符串（以空格分隔）将会是foreach函数的返回值。
 
 所以， ``<var>`` 最好是一个变量名， ``<list>`` 可以是一个表达式，而 ``<text>`` 中一般会使用 ``<var>`` 这个参数来依次枚举 ``<list>`` 中的单词。举个例子：
 
@@ -367,15 +367,15 @@ call函数是唯一一个可以用来创建新的参数化的函数。你可以�
 
 .. code-block:: makefile
 
-    $(call <expression>;,<parm1>;,<parm2>;,<parm3>;...)
+    $(call <expression>, <parm1>, <parm2>, ..., <parmn>)
 
-当make执行这个函数时， ``<expression>`` ;参数中的变量，如 ``$(1)`` ， ``$(2)`` ， ``$(3)`` 等，会被参数 ``<parm1>;`` ， ``<parm2>;`` ， ``<parm3>;`` 依次取代。而 ``<expression>;`` 的返回值就是 call函数的返回值。例如：
+当make执行这个函数时， ``<expression>`` 参数中的变量，如 ``$(1)`` 、 ``$(2)`` 等，会被参数 ``<parm1>`` 、 ``<parm2>`` 、 ``<parm3>`` 依次取代。而 ``<expression>`` 的返回值就是 call函数的返回值。例如：
 
 .. code-block:: makefile
 
     reverse =  $(1) $(2)
 
-    foo = $(call reverse,a,b)
+    foo = $(call reverse, a, b)
 
 那么， ``foo`` 的值就是 ``a b`` 。当然，参数的次序是可以自定义的，不一定是顺序的，如：
 
@@ -383,7 +383,7 @@ call函数是唯一一个可以用来创建新的参数化的函数。你可以�
 
     reverse =  $(2) $(1)
 
-    foo = $(call reverse,a,b)
+    foo = $(call reverse, a, b)
 
 此时的 ``foo`` 的值就是 ``b a`` 。
 
@@ -394,24 +394,24 @@ origin函数不像其它的函数，他并不操作变量的值，他只是告�
 
 .. code-block:: makefile
 
-    $(origin <variable>;)
+    $(origin <variable>)
 
-注意， ``<variable>;`` 是变量的名字，不应该是引用。所以你最好不要在 ``<variable>;`` 中使用 ``$`` 字符。Origin函数会以其返回值来告诉你这个变量的“出生情况”，下面，是origin函数的返回值:
+注意， ``<variable>`` 是变量的名字，不应该是引用。所以你最好不要在 ``<variable>`` 中使用 ``$`` 字符。Origin函数会以其返回值来告诉你这个变量的“出生情况”，下面，是origin函数的返回值:
 
 ``undefined``
-    如果 ``<variable>;`` 从来没有定义过，origin函数返回这个值 ``undefined``
+    如果 ``<variable>`` 从来没有定义过，origin函数返回这个值 ``undefined``
 ``default``
-    如果 ``<variable>;`` 是一个默认的定义，比如“CC”这个变量，这种变量我们将在后面讲述。
+    如果 ``<variable>`` 是一个默认的定义，比如“CC”这个变量，这种变量我们将在后面讲述。
 ``environment``
-    如果 ``<variable>;`` 是一个环境变量，并且当Makefile被执行时， ``-e`` 参数没有被打开。
+    如果 ``<variable>`` 是一个环境变量，并且当Makefile被执行时， ``-e`` 参数没有被打开。
 ``file``
-    如果 ``<variable>;`` 这个变量被定义在Makefile中。
+    如果 ``<variable>`` 这个变量被定义在Makefile中。
 ``command line``
-    如果 ``<variable>;`` 这个变量是被命令行定义的。
+    如果 ``<variable>`` 这个变量是被命令行定义的。
 ``override``
-    如果 ``<variable>;`` 是被override指示符重新定义的。
+    如果 ``<variable>`` 是被override指示符重新定义的。
 ``automatic``
-    如果 ``<variable>;`` 是一个命令运行中的自动化变量。关于自动化变量将在后面讲述。
+    如果 ``<variable>`` 是一个命令运行中的自动化变量。关于自动化变量将在后面讲述。
 
 这些信息对于我们编写Makefile是非常有用的，例如，假设我们有一个Makefile其包了一个定义文件Make.def，在 Make.def中定义了一个变量“bletch”，而我们的环境中也有一个环境变量“bletch”，此时，我们想判断一下，如果变量来源于环境，那么我们就把之重定义了，如果来源于Make.def或是命令行等非环境的，那么我们就不重新定义它。于是，在我们的Makefile中，我们可以这样写：
 
@@ -444,7 +444,7 @@ make提供了一些函数来控制make的运行。通常，你需要检测一些
 
 .. code-block:: makefile
 
-    $(error <text ...>;)
+    $(error <text ...>)
 
 
 产生一个致命的错误， ``<text ...>`` 是错误信息。注意，error函数不会在一被使用就会产生错误信息，所以如果你把其定义在某个变量中，并在后续的脚本中使用这个变量，那么也是可以的。例如：
@@ -465,12 +465,12 @@ make提供了一些函数来控制make的运行。通常，你需要检测一些
 
     .PHONY: err
 
-    err: ; $(ERR)
+    err: $(ERR)
 
 示例一会在变量ERROR_001定义了后执行时产生error调用，而示例二则在目录err被执行时才发生error调用。
 
 .. code-block:: makefile
 
-    $(warning <text ...>;)
+    $(warning <text ...>)
 
 这个函数很像error函数，只是它并不会让make退出，只是输出一段警告信息，而make继续执行。
