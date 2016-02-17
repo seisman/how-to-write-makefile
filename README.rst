@@ -36,7 +36,7 @@
 #. 编译生成PDF（要求安装TeXLive 2015）::
 
        $ make xelatexpdf
-       $ evince build/latex/GMT5_Docs.pdf&
+       $ evince build/latex/Makefile.pdf&
 
 sphinx中文支持
 --------------
