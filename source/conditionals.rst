@@ -57,17 +57,13 @@
 语法
 ----
 
-条件表达式的语法为：
-
-.. code-block:: makefile
+条件表达式的语法为::
 
     <conditional-directive>
     <text-if-true>
     endif
 
-以及：
-
-.. code-block:: makefile
+以及::
 
     <conditional-directive>
     <text-if-true>
@@ -87,9 +83,7 @@
     ifeq "<arg1>" '<arg2>'
     ifeq '<arg1>' "<arg2>"
 
-比较参数 ``arg1`` 和 ``arg2`` 的值是否相同。当然，参数中我们还可以使用make的函数。如：
-
-.. code-block:: makefile
+比较参数 ``arg1`` 和 ``arg2`` 的值是否相同。当然，参数中我们还可以使用make的函数。如::
 
     ifeq ($(strip $(foo)),)
     <text-if-empty>

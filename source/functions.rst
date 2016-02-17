@@ -12,9 +12,7 @@
 
     $(<function> <arguments>)
 
-或是
-
-.. code-block:: makefile
+或是::
 
     ${<function> <arguments>}
 

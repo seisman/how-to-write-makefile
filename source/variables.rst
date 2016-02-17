@@ -254,9 +254,7 @@ dir这个变量的值是“/foo/bar”，后面还跟了4个空格，如果我�
 
 这个示例中，如果定义了“do_sort”，那么： ``foo := $(sort a d b g q c)`` ，于是 ``$(foo)`` 的值就是 “a b c d g q”，而如果没有定义“do_sort”，那么： ``foo := $(strip a d b g q c)`` ，调用的就是strip函数。
 
-当然，“把变量的值再当成变量”这种技术，同样可以用在操作符的左边：
-
-.. code-block:: makefile
+当然，“把变量的值再当成变量”这种技术，同样可以用在操作符的左边::
 
     dir = foo
     $(dir)_sources := $(wildcard $(dir)/*.c)
@@ -313,23 +311,17 @@ dir这个变量的值是“/foo/bar”，后面还跟了4个空格，如果我�
 override 指示符
 ---------------
 
-如果有变量是通常make的命令行参数设置的，那么Makefile中对这个变量的赋值会被忽略。如果你想在Makefile中设置这类参数的值，那么，你可以使用“override”指示符。其语法是：
-
-.. code-block:: makefile
+如果有变量是通常make的命令行参数设置的，那么Makefile中对这个变量的赋值会被忽略。如果你想在Makefile中设置这类参数的值，那么，你可以使用“override”指示符。其语法是::
 
     override <variable>; = <value>;
 
     override <variable>; := <value>;
 
-当然，你还可以追加：
-
-.. code-block:: makefile
+当然，你还可以追加::
 
     override <variable>; += <more text>;
 
-对于多行的变量定义，我们用define指示符，在define指示符前，也同样可以使用override指示符，如：
-
-.. code-block:: makefile
+对于多行的变量定义，我们用define指示符，在define指示符前，也同样可以使用override指示符，如::
 
     override define foo
     bar
@@ -342,9 +334,7 @@ override 指示符
 
 define指示符后面跟的是变量的名字，而重起一行定义变量的值，定义是以endef 关键字结束。其工作方式和“=”操作符一样。变量的值可以包含函数、命令、文字，或是其它变量。因为命令需要以[Tab]键开头，所以如果你用define定义的命令变量中没有以 ``Tab`` 键开头，那么make 就不会把其认为是命令。
 
-下面的这个示例展示了define的用法：
-
-.. code-block:: makefile
+下面的这个示例展示了define的用法::
 
     define two-lines
     echo foo

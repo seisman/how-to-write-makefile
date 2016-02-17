@@ -86,15 +86,11 @@ make一般是使用环境变量SHELL中所定义的系统Shell来执行命令，
 
 我们把这个Makefile叫做“总控Makefile”，总控Makefile的变量可以传递到下级的Makefile中（如果你显示的声明），但是不会覆盖下层的Makefile中所定义的变量，除非指定了 ``-e`` 参数。
 
-如果你要传递变量到下级Makefile中，那么你可以使用这样的声明：
-
-.. code-block:: makefile
+如果你要传递变量到下级Makefile中，那么你可以使用这样的声明::
 
     export <variable ...>;
 
-如果你不想让某些变量传递到下级Makefile中，那么你可以这样声明：
-
-.. code-block:: makefile
+如果你不想让某些变量传递到下级Makefile中，那么你可以这样声明::
 
     unexport <variable ...>;
 
@@ -165,9 +161,7 @@ make一般是使用环境变量SHELL中所定义的系统Shell来执行命令，
 定义命令包
 ----------
 
-如果Makefile中出现一些相同命令序列，那么我们可以为这些相同的命令序列定义一个变量。定义这种命令序列的语法以 ``define`` 开始，以 ``endef`` 结束，如：
-
-.. code-block:: makefile
+如果Makefile中出现一些相同命令序列，那么我们可以为这些相同的命令序列定义一个变量。定义这种命令序列的语法以 ``define`` 开始，以 ``endef`` 结束，如::
 
     define run-yacc
     yacc $(firstword $^)

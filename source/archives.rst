@@ -4,37 +4,28 @@
 函数库文件也就是对Object文件（程序编译的中间文件）的打包文件。在Unix下，一般是由命令 ``ar`` 来完成打包工作。
 
 函数库文件的成员
-
 ----------------
 
-一个函数库文件由多个文件组成。你可以以如下格式指定函数库文件及其组成::
+一个函数库文件由多个文件组成。你可以用如下格式指定函数库文件及其组成::
 
     archive(member)
 
-这个不是一个命令，而一个目标和依赖的定义。一般来说，这种用法基本上就是为了 ``ar`` 命令来服务的。如：
-
-.. code-block:: makefile
+这个不是一个命令，而一个目标和依赖的定义。一般来说，这种用法基本上就是为了 ``ar`` 命令来服务的。如::
 
     foolib(hack.o) : hack.o
         ar cr foolib hack.o
 
-如果要指定多个member，那就以空格分开，如:
+如果要指定多个member，那就以空格分开，如::
 
-.. code-block:: makefile
+   foolib(hack.o kludge.o)
 
-    foolib(hack.o kludge.o)
+其等价于::
 
-其等价于：
+   foolib(hack.o) foolib(kludge.o)
 
-.. code-block:: makefile
+你还可以使用Shell的文件通配符来定义，如::
 
-    foolib(hack.o) foolib(kludge.o)
-
-你还可以使用Shell的文件通配符来定义，如：
-
-.. code-block:: makefile
-
-    foolib(*.o)
+   foolib(*.o)
 
 函数库成员的隐含规则
 --------------------
