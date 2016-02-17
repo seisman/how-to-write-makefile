@@ -44,7 +44,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'跟我一起写Makefile'
-copyright = u'2014-2015, 作者：陈皓；排版：SeisMan'
+copyright = u'2014-2016, 作者：陈皓；排版：SeisMan'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
