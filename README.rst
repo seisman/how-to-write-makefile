@@ -14,8 +14,8 @@
 - 书的文字部分来自于 `Andriki`_ 提供的Mediawiki源码；
 - 使用 `Sphinx`_ 制作文档
 - 项目主页：https://github.com/seisman/how-to-write-makefile
-- 网页在线版：http://htwm.readthedocs.org/zh_CN/latest/
-- PDF下载：http://readthedocs.org/projects/htwm/downloads/pdf/latest/
+- 网页在线版：http://how-to-write-makefile.readthedocs.org/zh_CN/latest/
+- PDF下载：https://media.readthedocs.org/pdf/how-to-write-makefile/latest/how-to-write-makefile.pdf
 
 本地编译
 --------
