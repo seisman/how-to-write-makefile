@@ -13,30 +13,30 @@
 
 - 书的文字部分来自于 `Andriki`_ 提供的Mediawiki源码；
 - 使用 `Sphinx`_ 制作文档
-- 项目主页：https://github.com/seisman/how-to-write-makefile
-- 网页在线版：http://how-to-write-makefile.readthedocs.org/zh_CN/latest/
-- PDF下载：https://media.readthedocs.org/pdf/how-to-write-makefile/latest/how-to-write-makefile.pdf
+- 项目主页： https://github.com/seisman/how-to-write-makefile
+- 网页在线版： http://seisman.github.io/how-to-write-makefile/
+- PDF下载： https://github.com/seisman/how-to-write-makefile/raw/pdf/Makefile.pdf
 
 本地编译
 --------
 
 #. Clone项目到本地::
 
-       $ git clone https://github.com/seisman/how-to-write-makefile.git
+   $ git clone https://github.com/seisman/how-to-write-makefile.git
 
 #. 安装依赖::
 
-       $ pip install sphinx sphinx_rtd_theme pygments
+   $ pip install -r requirements.txt
 
 #. 编译生成HTML::
 
-       $ make html
-       $ firefox build/html/index.html&
+   $ make html
+   $ firefox build/html/index.html&
 
 #. 编译生成PDF（要求安装TeXLive 2015）::
 
-       $ make xelatexpdf
-       $ evince build/latex/Makefile.pdf&
+   $ make xelatexpdf
+   $ evince build/latex/Makefile.pdf&
 
 sphinx中文支持
 --------------
