@@ -1,0 +1,22 @@
+language: python
+python:
+  - "3.5"
+
+sudo: required
+dist: trusty
+
+branches:
+  only:
+    - dev
+
+install:
+    - pip install -r requirements.txt
+    - bash ./.texlive-minmal-installer.sh
+    - source ./srcfile
+
+script:
+    - make html
+    - make xelatexpdf
+
+after_success:
+    bash ./.travis-deploy.sh
