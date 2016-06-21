@@ -1,10 +1,10 @@
 #!/bin/bash
 #
-# Install minimal TeXLive 2015 for GMT_docs
+# Install minimal TeXLive 2016 for How-to-Write-Makefile
 #
 #REMOTE=http://mirrors.ustc.edu.cn/CTAN/systems/texlive/tlnet
 REMOTE=http://ctan.sharelatex.com/tex-archive/systems/texlive/tlnet/
-TEXBIN=/usr/local/texlive/2015/bin/x86_64-linux
+TEXBIN=/usr/local/texlive/2016/bin/x86_64-linux
 PACKAGES="titlesec fandol ctex threeparttable framed wrapfig upquote capt-of needspace multirow eqparbox environ trimspaces zhnumber zapfding latexmk"
 
 # install TeXLive
