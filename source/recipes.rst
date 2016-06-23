@@ -137,7 +137,7 @@ make一般是使用环境变量SHELL中所定义的系统Shell来执行命令，
 
 如果你要传递所有的变量，那么，只要一个export就行了。后面什么也不用跟，表示传递所有的变量。
 
-需要注意的是，有两个变量，一个是 ``SHELL`` ，一个是 ``MAKEFLAGS`` ，这两个变量不管你是否export，其总是要传递到下层 Makefile中，特别是 ``MAKEFILES`` 变量，其中包含了make的参数信息，如果我们执行“总控Makefile”时有make参数或是在上层 Makefile中定义了这个变量，那么 ``MAKEFILES`` 变量将会是这些参数，并会传递到下层Makefile中，这是一个系统级的环境变量。
+需要注意的是，有两个变量，一个是 ``SHELL`` ，一个是 ``MAKEFLAGS`` ，这两个变量不管你是否export，其总是要传递到下层 Makefile中，特别是 ``MAKEFLAGS`` 变量，其中包含了make的参数信息，如果我们执行“总控Makefile”时有make参数或是在上层 Makefile中定义了这个变量，那么 ``MAKEFLAGS`` 变量将会是这些参数，并会传递到下层Makefile中，这是一个系统级的环境变量。
 
 但是make命令中的有几个参数并不往下传递，它们是 ``-C`` , ``-f`` , ``-h``, ``-o`` 和 ``-W`` （有关Makefile参数的细节将在后面说明），如果你不想往下层传递参数，那么，你可以这样来：
 
