@@ -361,19 +361,19 @@ if函数很像GNU的make所支持的条件语句——ifeq（参见前面所述�
 call函数
 --------
 
-call函数是唯一一个可以用来创建新的参数化的函数。你可以写一个非常复杂的表达式，这个表达式中，你可以定义许多参数，然后你可以用call函数来向这个表达式传递参数。其语法是：
+call函数是唯一一个可以用来创建新的参数化的函数。你可以写一个非常复杂的表达式，这个表达式中，你可以定义许多参数，然后你可以call函数来向这个表达式传递参数。其语法是：
 
 .. code-block:: makefile
 
-    $(call <expression>, <parm1>, <parm2>, ..., <parmn>)
+    $(call <expression>,<parm1>,<parm2>,...,<parmn>)
 
-当make执行这个函数时， ``<expression>`` 参数中的变量，如 ``$(1)`` 、 ``$(2)`` 等，会被参数 ``<parm1>`` 、 ``<parm2>`` 、 ``<parm3>`` 依次取代。而 ``<expression>`` 的返回值就是 call函数的返回值。例如：
+当make执行这个函数时， ``<expression>`` 参数中的变量，如 ``$(1)`` 、 ``$(2)`` 等，会被参数 ``<parm1>`` 、 ``<parm2>`` 、 ``<parm3>`` 依次取代。而 ``<expression>`` 的返回值就是 call 函数的返回值。例如：
 
 .. code-block:: makefile
 
     reverse =  $(1) $(2)
 
-    foo = $(call reverse, a, b)
+    foo = $(call reverse,a,b)
 
 那么， ``foo`` 的值就是 ``a b`` 。当然，参数的次序是可以自定义的，不一定是顺序的，如：
 
@@ -381,9 +381,11 @@ call函数是唯一一个可以用来创建新的参数化的函数。你可以�
 
     reverse =  $(2) $(1)
 
-    foo = $(call reverse, a, b)
+    foo = $(call reverse,a,b)
 
 此时的 ``foo`` 的值就是 ``b a`` 。
+
+需要注意：在向 call 函数传递参数时要尤其注意空格的使用。call 函数在处理参数时，第2个及其之后的参数中的空格会被保留，因而可能造成一些奇怪的效果。因而在向call函数提供参数时，最安全的做法是去除所有多余的空格。
 
 origin函数
 ----------
