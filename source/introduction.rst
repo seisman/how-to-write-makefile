@@ -293,7 +293,7 @@ make命令开始时，会找寻 ``include`` 所指出的其它Makefile，并把�
 make的工作方式
 --------------
 
-GNU的make工作时的执行步骤入下：（想来其它的make也是类似）
+GNU的make工作时的执行步骤如下：（想来其它的make也是类似）
 
 #. 读入所有的Makefile。
 #. 读入被include的其它Makefile。
