@@ -5,7 +5,7 @@
 #REMOTE=http://mirrors.ustc.edu.cn/CTAN/systems/texlive/tlnet
 REMOTE=http://ctan.sharelatex.com/tex-archive/systems/texlive/tlnet/
 TEXBIN=/usr/local/texlive/2016/bin/x86_64-linux
-PACKAGES="titlesec fandol ctex threeparttable framed wrapfig upquote capt-of needspace multirow eqparbox environ trimspaces zhnumber zapfding latexmk fncychap"
+PACKAGES="titlesec fandol ctex threeparttable framed wrapfig upquote capt-of needspace multirow eqparbox environ trimspaces zhnumber zapfding latexmk fncychap tabulary"
 
 # install TeXLive
 mkdir -p /tmp/install-texlive
