@@ -1,6 +1,9 @@
 跟我一起写Makefile (PDF重制版)
 ##############################
 
+.. image:: https://travis-ci.org/seisman/how-to-write-makefile.svg?branch=master
+    :target: https://travis-ci.org/seisman/how-to-write-makefile
+
 简介
 ----
 
@@ -14,8 +17,8 @@
 - 书的文字部分来自于 `Andriki`_ 提供的Mediawiki源码；
 - 使用 `Sphinx`_ 制作文档
 - 项目主页： https://github.com/seisman/how-to-write-makefile
-- 网页在线版： http://seisman.github.io/how-to-write-makefile/
-- PDF下载： https://github.com/seisman/how-to-write-makefile/raw/pdf/Makefile.pdf
+- 网页在线版： https://seisman.github.io/how-to-write-makefile/
+- PDF下载： https://seisman.github.io/how-to-write-makefile/Makefile.pdf
 
 本地编译
 --------
@@ -41,7 +44,7 @@
 sphinx中文支持
 --------------
 
-sphinx和readthedocs网站默认是不支持中文的，因为对 ``conf.py`` 和 ``Makefile`` 做了些许修改。详情参考 `sphinx生成中文PDF <http://seisman.info/chinese-support-for-sphinx.html>`_ 以及本项目中的 ``conf.py`` 和 ``Makefile`` 源码。
+sphinx和readthedocs网站默认是不支持中文的，因为对 ``conf.py`` 和 ``Makefile`` 做了些许修改。详情参考本项目中的 ``conf.py`` 和 ``Makefile`` 源码。
 
 .. _`陈皓`: http://coolshell.cn/haoel
 .. _`Andriki`: http://andriki.com/mediawiki/index.php?title=Linux:%E8%B7%9F%E6%88%91%E4%B8%80%E8%B5%B7%E5%86%99Makefile
