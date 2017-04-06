@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.5"
+  - "3.6"
 
 sudo: required
 dist: trusty
@@ -8,15 +8,24 @@ dist: trusty
 branches:
   only:
     - master
+    - dev
 
 install:
-    - pip install -r requirements.txt
-    - bash ./.texlive-minmal-installer.sh
-    - source ./srcfile
+  - pip install -r requirements.txt
+  - bash ./.texlive-minmal-installer.sh
+  - source ./srcfile
 
 script:
-    - make html
-    - make xelatexpdf
+  - make html
+  - make xelatexpdf
 
 after_success:
-    bash ./.travis-deploy.sh
+  - cp build/latex/Makefile.pdf build/html/
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: ${GH_TOKEN}
+  local_dir: build/html
+  on:
+    branch: master
