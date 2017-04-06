@@ -19,6 +19,7 @@ help:
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
+# make sphinx support chinese with xelatex
 xelatexpdf: Makefile latex
 	@echo "Runnning LaTeX files through xelatex..."
 	cd $(BUILDDIR)/latex; latexmk -xelatex -shell-escape -interaction=nonstopmode
