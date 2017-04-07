@@ -149,7 +149,7 @@ htmlhelp_basename = 'Makefiledoc'
 
 
 # -- Options for LaTeX output ---------------------------------------------
-
+latex_engine="xelatex"
 if on_rtd:
     latex_elements = {
         # The paper size ('letterpaper' or 'a4paper').

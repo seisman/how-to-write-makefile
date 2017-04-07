@@ -17,7 +17,7 @@ install:
 
 script:
   - make html
-  - make xelatexpdf
+  - make latexpdf
 
 after_success:
   - cp build/latex/Makefile.pdf build/html/

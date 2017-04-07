@@ -10,7 +10,6 @@ BUILDDIR      = build
 # Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-	@echo "  xelatexpdf  to make LaTeX files and run them through xelatex"
 
 .PHONY: help Makefile
 
@@ -18,9 +17,3 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-
-# make sphinx support chinese with xelatex
-xelatexpdf: Makefile latex
-	@echo "Runnning LaTeX files through xelatex..."
-	cd $(BUILDDIR)/latex; latexmk -xelatex -shell-escape -interaction=nonstopmode
-	@echo "xelatex finished; the PDF files are in $(BUILDDIR)/latex."
