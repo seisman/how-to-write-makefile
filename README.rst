@@ -38,7 +38,7 @@
 
 #. 编译生成PDF（要求安装TeXLive 2016）::
 
-   $ make xelatexpdf
+   $ make latexpdf
    $ evince build/latex/Makefile.pdf&
 
 sphinx中文支持
