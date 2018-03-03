@@ -41,11 +41,6 @@
    $ make latexpdf
    $ evince build/latex/Makefile.pdf&
 
-sphinx中文支持
---------------
-
-sphinx和readthedocs网站默认是不支持中文的，因为对 ``conf.py`` 和 ``Makefile`` 做了些许修改。详情参考本项目中的 ``conf.py`` 和 ``Makefile`` 源码。
-
 .. _`陈皓`: http://coolshell.cn/haoel
 .. _`Andriki`: http://andriki.com/mediawiki/index.php?title=Linux:%E8%B7%9F%E6%88%91%E4%B8%80%E8%B5%B7%E5%86%99Makefile
 .. _`Sphinx`: http://sphinx-doc.org/
