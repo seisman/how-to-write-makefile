@@ -1,7 +1,7 @@
 概述
 ====
 
-什么是makefile？或许很多Winodws的程序员都不知道这个东西，因为那些Windows的集成开发环境
+什么是makefile？或许很多Windows的程序员都不知道这个东西，因为那些Windows的集成开发环境
 （integrated development environment，IDE）都为你做了这个工作，但我觉得要作一个好的和专
 业的程序员，makefile还是要懂。这就好像现在有这么多的HTML编辑器，但如果你想成为一个专业人士，
 你还是要了解HTML的标签的含义。特别在Unix下的软件编译，你就不能不自己写makefile了，会不会
