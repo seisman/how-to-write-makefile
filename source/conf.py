@@ -48,7 +48,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'跟我一起写Makefile'
-copyright = u'2014-2018, 作者：陈皓；排版：SeisMan'
+copyright = u'2014-2019, 作者：陈皓；排版：SeisMan'
 author = 'SeisMan'
 
 # The version info for the project you're documenting, acts as replacement for
