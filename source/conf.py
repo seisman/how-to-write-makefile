@@ -152,20 +152,22 @@ htmlhelp_basename = 'Makefiledoc'
 latex_engine="xelatex"
 latex_elements = {
     'papersize' : 'a4paper',
-    'utf8extra' : '',
-    'inputenc'  : '',
+    'figure_align' : 'H',
+    'fncychap'  : '',   # use default chapter style from ctex
+    'babel'     : '',
+    'polyglossia': '',
+    'fontpkg'   : '',
     'cmappkg'   : '',
     'fontenc'   : '',
-    'releasename' : 'By SeisMan@GitHub',
+    'utf8extra' : '',
+    'inputenc'  : '',
     'release' : '',
-    'babel'     : r'''\usepackage[english]{babel}''',
+    'maketitle' : '\\maketitle',
     'preamble' : r'''
         \usepackage{ctex}
         \parindent 2em
         \setcounter{tocdepth}{3}
-        \renewcommand\familydefault{\ttdefault}
-        \renewcommand\CJKfamilydefault{\CJKrmdefault}
-    ''',
+    '''
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
