@@ -18,7 +18,7 @@ install:
   - source ~/.bash_profile
   - export TLMGR=`which tlmgr`
   # update texlive
-  - sudo $TLMGR update --self --all -repository http://ctan.sharelatex.com/tex-archive/systems/texlive/tlnet/
+  #- sudo $TLMGR update --self --all -repository http://ctan.sharelatex.com/tex-archive/systems/texlive/tlnet/
 
 script:
   - make html
