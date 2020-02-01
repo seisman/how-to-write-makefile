@@ -315,14 +315,14 @@ Makefile的规则中的目标可以不止一个，其支持多目标，有可能
 
 targets定义了一系列的目标文件，可以有通配符。是目标的一个集合。
 
-target-parrtern是指明了targets的模式，也就是的目标集模式。
+target-pattern是指明了targets的模式，也就是的目标集模式。
 
-prereq-parrterns是目标的依赖模式，它对target-parrtern形成的模式再进行一次依赖目标的定义。
+prereq-patterns是目标的依赖模式，它对target-pattern形成的模式再进行一次依赖目标的定义。
 
 这样描述这三个东西，可能还是没有说清楚，还是举个例子来说明一下吧。如果我们
-的<target-parrtern>定义成 ``%.o`` ，意思是我们的<target>;集合中都是以 ``.o`` 结尾的，而
-如果我们的<prereq-parrterns>定义成 ``%.c`` ，意思是对<target-parrtern>所形成的目标集进
-行二次定义，其计算方法是，取<target-parrtern>模式中的 ``%`` （也就是去掉了 ``.o`` 这个结
+的<target-pattern>定义成 ``%.o`` ，意思是我们的<target>;集合中都是以 ``.o`` 结尾的，而
+如果我们的<prereq-patterns>定义成 ``%.c`` ，意思是对<target-pattern>所形成的目标集进
+行二次定义，其计算方法是，取<target-pattern>模式中的 ``%`` （也就是去掉了 ``.o`` 这个结
 尾），并为其加上 ``.c`` 这个结尾，形成的新集合。
 
 所以，我们的“目标模式”或是“依赖模式”中都应该有 ``%`` 这个字符，如果你的文件名中有 ``%`` 那么
