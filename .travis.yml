@@ -17,6 +17,7 @@ install:
   - sudo bash install-tl.sh
   - source ~/.bash_profile
   - export TLMGR=`which tlmgr`
+  - sudo $TMLGR install letltxmacro
   # update texlive
   - sudo $TLMGR update --self --all
 
