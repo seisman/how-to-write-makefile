@@ -32,7 +32,8 @@ import sys
 # ones.
 extensions = ['sphinx.ext.todo',
     'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages']
+    'sphinx.ext.githubpages',
+    'sphinx_cjkspace.cjkspace']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
