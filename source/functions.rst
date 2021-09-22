@@ -331,7 +331,7 @@ addprefix
     $(addprefix <prefix>,<names...>)
 
 - 名称：加前缀函数——addprefix。
-- 功能：把前缀 ``<prefix>`` 加到 ``<names>`` 中的每个单词后面。
+- 功能：把前缀 ``<prefix>`` 加到 ``<names>`` 中的每个单词前面。
 - 返回：返回加过前缀的文件名序列。
 - 示例： ``$(addprefix src/,foo bar)`` 返回值是 ``src/foo src/bar`` 。
 
