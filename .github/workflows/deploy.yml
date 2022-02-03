@@ -38,7 +38,8 @@ jobs:
         uses: r-lib/actions/setup-tinytex@v1
 
       - name: Install LaTeX packages
-        run: echo tlmgr install
+        run: |
+          tlmgr install wrapfig
 
       - name: Build PDF documentaiton
         run: |
