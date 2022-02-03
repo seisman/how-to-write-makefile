@@ -40,8 +40,9 @@ jobs:
       - name: Install LaTeX packages
         run: |
           tlmgr install tabulary latexmk ulem environ trimspaces titlesec \
-                      varwidth framed threeparttable wrapfig upquote capt-of \
-                      multirow eqparbox needspace fncychap fancyhdr letltxmacro
+                        varwidth framed threeparttable wrapfig upquote capt-of \
+                        multirow eqparbox needspace fncychap fancyhdr letltxmacro \
+                        parskip
 
       - name: Build PDF documentaiton
         run: |
