@@ -1,0 +1,60 @@
+#
+# Build and deploy the documentation
+#
+name: Deploy
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      # Cancel previous runs that are not completed
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: Checkout
+        uses: actions/checkout@v2.4.0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build HTML documentaiton
+        run: make html
+
+      - name: Install TinyTeX
+        uses: r-lib/actions/setup-tinytex@v1
+
+      - name: Install LaTeX packages
+        run: |
+          tlmgr install tabulary latexmk ulem environ trimspaces titlesec \
+                      varwidth framed threeparttable wrapfig upquote capt-of \
+                      multirow eqparbox needspace fncychap letltxmacro
+
+      - name: Build PDF documentaiton
+        run: |
+          make latexpdf
+          cp build/latex/Makefile.pdf build/html/
+
+      - name: Deploy documentation
+        uses: peaceiris/actions-gh-pages@068dc23d9710f1ba62e86896f84735d869951305
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/html
+          # Only keep the latest commit to avoid bloating the repository
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
