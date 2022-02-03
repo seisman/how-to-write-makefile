@@ -39,7 +39,8 @@ jobs:
 
       - name: Install LaTeX packages
         run: |
-          tlmgr install wrapfig capt-of upquote needspace tabulary varwidth
+          tlmgr install wrapfig capt-of upquote needspace tabulary varwidth \
+            parskip
 
       - name: Build PDF documentaiton
         run: |
