@@ -40,7 +40,7 @@ jobs:
       - name: Install LaTeX packages
         run: |
           tlmgr install wrapfig capt-of upquote needspace tabulary varwidth \
-            parskip fancyhdr titlesec
+            parskip fancyhdr titlesec hypcap
 
       - name: Build PDF documentaiton
         run: |
