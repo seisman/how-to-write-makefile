@@ -39,7 +39,7 @@ jobs:
 
       - name: Install LaTeX packages
         run: |
-          tlmgr install wrapfig
+          tlmgr install wrapfig capt-of
 
       - name: Build PDF documentaiton
         run: |
