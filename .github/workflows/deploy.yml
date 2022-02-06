@@ -37,7 +37,7 @@ jobs:
       - name: Install LaTeX
         run: |
           sudo apt-get install texlive-latex-recommended texlive-latex-extra \
-            texlive-fonts-recommended latexmk
+            texlive-fonts-recommended latexmk texlive-xetex
 
       #- name: Install TinyTeX
       #  uses: r-lib/actions/setup-tinytex@v1
