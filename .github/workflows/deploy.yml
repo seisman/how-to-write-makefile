@@ -34,13 +34,16 @@ jobs:
       - name: Build HTML documentaiton
         run: make html
 
-      - name: Install TinyTeX
-        uses: r-lib/actions/setup-tinytex@v1
+      - name: Install LaTeX
+        run: sudo apt-get install texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
 
-      - name: Install LaTeX packages
-        run: |
-          tlmgr install wrapfig capt-of upquote needspace tabulary varwidth \
-            parskip fancyhdr titlesec hypcap
+      #- name: Install TinyTeX
+      #  uses: r-lib/actions/setup-tinytex@v1
+
+      #- name: Install LaTeX packages
+      #  run: |
+      #    tlmgr install wrapfig capt-of upquote needspace tabulary varwidth \
+      #      parskip fancyhdr titlesec hypcap
 
       - name: Build PDF documentaiton
         run: |
