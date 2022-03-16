@@ -34,19 +34,14 @@ jobs:
       - name: Build HTML documentaiton
         run: make html
 
-      #- name: Install TinyTeX
-      #  uses: r-lib/actions/setup-tinytex@v1
+      - name: Install TeXLive
+        run: |
+          sudo apt-get install texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
 
-      #- name: Install LaTeX packages
-      #  run: |
-      #    tlmgr install tabulary latexmk ulem environ trimspaces titlesec \
-      #                varwidth framed threeparttable wrapfig upquote capt-of \
-      #                multirow eqparbox needspace fncychap letltxmacro
-
-      #- name: Build PDF documentaiton
-      #  run: |
-      #    make latexpdf
-      #    cp build/latex/Makefile.pdf build/html/
+      - name: Build PDF documentaiton
+        run: |
+          make latexpdf
+          cp build/latex/Makefile.pdf build/html/
 
       - name: Deploy documentation
         uses: peaceiris/actions-gh-pages@068dc23d9710f1ba62e86896f84735d869951305
