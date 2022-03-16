@@ -36,7 +36,8 @@ jobs:
 
       - name: Install TeXLive
         run: |
-          sudo apt-get install texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended latexmk
+          sudo apt-get install texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended \
+                               texlive-xetex latexmk
 
       - name: Build PDF documentaiton
         run: |
