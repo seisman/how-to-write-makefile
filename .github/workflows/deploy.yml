@@ -41,7 +41,8 @@ jobs:
         run: |
           tlmgr install tabulary latexmk ulem environ trimspaces titlesec \
                       varwidth framed threeparttable wrapfig upquote capt-of \
-                      multirow eqparbox needspace fncychap letltxmacro parskip
+                      multirow eqparbox needspace fncychap letltxmacro parskip \
+                      fancyhdr
 
       - name: Build PDF documentaiton
         run: |
