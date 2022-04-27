@@ -37,8 +37,6 @@ jobs:
       - name: Install TeXLive
         run: |
           sudo apt-get install texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-xetex latexmk
-          tlmgr init-usertree
-          tlmgr install ctex
 
       - name: Build PDF documentaiton
         run: |
