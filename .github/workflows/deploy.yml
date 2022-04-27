@@ -39,6 +39,7 @@ jobs:
 
       - name: Install LaTeX packages
         run: |
+          tlmgr update --self
           tlmgr install tabulary latexmk ulem environ trimspaces titlesec \
                       varwidth framed threeparttable wrapfig upquote capt-of \
                       multirow eqparbox needspace fncychap letltxmacro parskip \
