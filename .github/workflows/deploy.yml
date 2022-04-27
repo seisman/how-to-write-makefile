@@ -40,6 +40,7 @@ jobs:
       - name: Install LaTeX packages
         run: |
           tlmgr update --self
+          tlmgr option repository http://mirrors.ustc.edu.cn/CTAN/systems/texlive/tlnet/
           tlmgr install tabulary latexmk ulem environ trimspaces titlesec \
                       varwidth framed threeparttable wrapfig upquote capt-of \
                       multirow eqparbox needspace fncychap letltxmacro parskip \
