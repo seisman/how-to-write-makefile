@@ -1,4 +1,4 @@
-跟我一起写Makefile (PDF重制版)
+跟我一起写Makefile (个人修改版)
 ##############################
 
 .. image:: https://github.com/seisman/how-to-write-makefile/actions/workflows/deploy.yml/badge.svg
