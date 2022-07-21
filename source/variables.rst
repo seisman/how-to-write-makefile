@@ -154,7 +154,7 @@ nullstring是一个Empty变量，其中什么也没有，而我们的space的值
 
     dir := /foo/bar    # directory to put the frobs in
 
-dir这个变量的值是“/foo/bar”，后面还跟了4个空格，如果我们这样使用这样变量来指定别的目
+dir这个变量的值是“/foo/bar”，后面还跟了4个空格，如果我们这样使用这个变量来指定别的目
 录——“$(dir)/file”那么就完蛋了。
 
 还有一个比较有用的操作符是 ``?=`` ，先看示例：
