@@ -36,7 +36,7 @@
    $ make html
    $ firefox build/html/index.html&
 
-#. 编译生成PDF（要求安装TeXLive 2016）::
+#. 编译生成PDF（要求安装TeXLive）::
 
    $ make latexpdf
    $ evince build/latex/Makefile.pdf&
