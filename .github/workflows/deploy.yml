@@ -53,7 +53,7 @@ jobs:
 
       - name: Deploy documentation
         uses: peaceiris/actions-gh-pages@068dc23d9710f1ba62e86896f84735d869951305
-        if: ${{ github.ref == 'refs/heads/main' }}
+        # if: ${{ github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/html
