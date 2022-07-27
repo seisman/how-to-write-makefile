@@ -34,19 +34,22 @@ jobs:
       - name: Build HTML documentaiton
         run: make html
 
-      #- name: Install TinyTeX
-      #  uses: r-lib/actions/setup-tinytex@v1
+      - name: Install TinyTeX
+        uses: r-lib/actions/setup-tinytex@v2
 
-      #- name: Install LaTeX packages
-      #  run: |
-      #    tlmgr install tabulary latexmk ulem environ trimspaces titlesec \
-      #                varwidth framed threeparttable wrapfig upquote capt-of \
-      #                multirow eqparbox needspace fncychap letltxmacro
+      - name: Install LaTeX packages
+        run: |
+          tlmgr update --self
+          tlmgr install --repository http://mirrors.ustc.edu.cn/CTAN/systems/texlive/tlnet/ \
+                      tabulary latexmk ulem environ trimspaces titlesec \
+                      varwidth framed threeparttable wrapfig upquote capt-of \
+                      multirow eqparbox needspace fncychap letltxmacro parskip \
+                      fancyhdr ctex
 
-      #- name: Build PDF documentaiton
-      #  run: |
-      #    make latexpdf
-      #    cp build/latex/Makefile.pdf build/html/
+      - name: Build PDF documentation
+        run: |
+          make latexpdf
+          cp build/latex/Makefile.pdf build/html/
 
       - name: Deploy documentation
         uses: peaceiris/actions-gh-pages@068dc23d9710f1ba62e86896f84735d869951305
