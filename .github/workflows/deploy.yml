@@ -46,7 +46,7 @@ jobs:
                       multirow eqparbox needspace fncychap letltxmacro parskip \
                       fancyhdr hypcap
 
-      - name: Build PDF documentaiton
+      - name: Build PDF documentation
         run: |
           make latexpdf
           cp build/latex/Makefile.pdf build/html/
