@@ -144,7 +144,7 @@ make的参数
     - b: 也就是basic，只输出简单的调试信息。即输出不需要重编译的目标。
     - v: 也就是verbose，在b选项的级别之上。输出的信息包括哪个makefile被解析，不需要被重编
       译的依赖文件（或是依赖目标）等。
-    - i: 也就是implicit，输出所以的隐含规则。
+    - i: 也就是implicit，输出所有的隐含规则。
     - j: 也就是jobs，输出执行规则中命令的详细信息，如命令的PID、返回码等。
     - m: 也就是makefile，输出make读取makefile，更新makefile，执行makefile的信息。
 
