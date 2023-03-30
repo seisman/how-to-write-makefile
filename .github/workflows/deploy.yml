@@ -44,7 +44,7 @@ jobs:
                       tabulary latexmk ulem environ trimspaces titlesec \
                       varwidth framed threeparttable wrapfig upquote capt-of \
                       multirow eqparbox needspace fncychap letltxmacro parskip \
-                      fancyhdr ctex
+                      fancyhdr ctex colortbl
 
       - name: Build PDF documentation
         run: |
