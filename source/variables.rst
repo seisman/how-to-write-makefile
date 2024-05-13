@@ -349,8 +349,8 @@ dir这个变量的值是“/foo/bar”，后面还跟了4个空格，如果我�
 override 指令
 ---------------
 
-如果有变量是通常make的命令行参数设置的，那么Makefile中对这个变量的赋值会被忽略。如果你想
-在Makefile中设置这类参数的值，那么，你可以使用“override”指令。其语法是::
+如果有变量是通过make的命令行参数设置的，那么Makefile文件中对这个变量的赋值会被忽略。如果你想
+在Makefile文件中设置这类参数的值，那么，你可以使用“override”指令。其语法是::
 
     override <variable>; = <value>;
 
