@@ -1,0 +1,606 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>使用函数 &mdash; 跟我一起写Makefile 1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/documentation_options.js?v=f115507d"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="make 的运行" href="invoke.html" />
+    <link rel="prev" title="使用条件判断" href="conditionals.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            跟我一起写Makefile
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">makefile介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">书写规则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recipes.html">书写命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variables.html">使用变量</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionals.html">使用条件判断</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">使用函数</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">函数的调用语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">字符串处理函数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subst">subst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#patsubst">patsubst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#strip">strip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#findstring">findstring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filter">filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filter-out">filter-out</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sort">sort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#word">word</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wordlist">wordlist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#words">words</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#firstword">firstword</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">文件名操作函数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dir">dir</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#notdir">notdir</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#suffix">suffix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basename">basename</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#addsuffix">addsuffix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#addprefix">addprefix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#join">join</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#foreach">foreach 函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#if">if 函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#call">call函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#origin">origin函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shell">shell函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#make">控制make的函数</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="invoke.html">make 的运行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implicit_rules.html">隐含规则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="archives.html">使用make更新函数库文件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postscript.html">后序</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">跟我一起写Makefile</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">使用函数</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/functions.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>使用函数<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>在Makefile中可以使用函数来处理变量，从而让我们的命令或是规则更为的灵活和具有智能。make
+所支持的函数也不算很多，不过已经足够我们的操作了。函数调用后，函数的返回值可以当做变量来使用。</p>
+<section id="id2">
+<h2>函数的调用语法<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>函数调用，很像变量的使用，也是以 <code class="docutils literal notranslate"><span class="pre">$</span></code> 来标识的，其语法如下：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span>&lt;<span class="nv">function</span>&gt; &lt;<span class="nv">arguments</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<p>或是:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>${&lt;function&gt; &lt;arguments&gt;}
+</pre></div>
+</div>
+<p>这里， <code class="docutils literal notranslate"><span class="pre">&lt;function&gt;</span></code> 就是函数名，make支持的函数不多。 <code class="docutils literal notranslate"><span class="pre">&lt;arguments&gt;</span></code> 为函数的参数，参数间以逗号 <code class="docutils literal notranslate"><span class="pre">,</span></code> 分隔，而函数名和参数之间以“空格”分隔。函数调用以 <code class="docutils literal notranslate"><span class="pre">$</span></code> 开头，以圆括号或花括号把函数名和参数括起。感觉很像一个变量，是不是？函数中的参数可以使用变量，为了风格的统一，函数和变量的括号最好一样，如使用 <code class="docutils literal notranslate"><span class="pre">$(subst</span> <span class="pre">a,b,$(x))</span></code> 这样的形式，而不是
+<code class="docutils literal notranslate"><span class="pre">$(subst</span> <span class="pre">a,b,</span> <span class="pre">${x})</span></code> 的形式。因为统一会更清楚，也会减少一些不必要的麻烦。</p>
+<p>还是来看一个示例：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">comma</span><span class="o">:=</span><span class="w"> </span>,
+<span class="nv">empty</span><span class="o">:=</span>
+<span class="nv">space</span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>empty<span class="k">)</span><span class="w"> </span><span class="k">$(</span>empty<span class="k">)</span>
+<span class="nv">foo</span><span class="o">:=</span><span class="w"> </span>a<span class="w"> </span>b<span class="w"> </span>c
+<span class="nv">bar</span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>subst<span class="w"> </span><span class="k">$(</span>space<span class="k">)</span>,<span class="k">$(</span>comma<span class="k">)</span>,<span class="k">$(</span>foo<span class="k">))</span>
+</pre></div>
+</div>
+<p>在这个示例中， <code class="docutils literal notranslate"><span class="pre">$(comma)</span></code> 的值是一个逗号。 <code class="docutils literal notranslate"><span class="pre">$(space)</span></code> 使用了 <code class="docutils literal notranslate"><span class="pre">$(empty)</span></code> 定义了一个空格， <code class="docutils literal notranslate"><span class="pre">$(foo)</span></code> 的值是 <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">b</span> <span class="pre">c</span></code> ， <code class="docutils literal notranslate"><span class="pre">$(bar)</span></code> 的定义用，调用了函数 <code class="docutils literal notranslate"><span class="pre">subst</span></code> ，这是一个替换函数，这个函数有三个参数，第一个参数是被替换字串，第二个参数是替换字串，第三个参数是替换操作作用的字串。这个函数也就是把 <code class="docutils literal notranslate"><span class="pre">$(foo)</span></code> 中的空格替换成逗号，所以 <code class="docutils literal notranslate"><span class="pre">$(bar)</span></code> 的值是 <code class="docutils literal notranslate"><span class="pre">a,b,c</span></code> 。</p>
+</section>
+<section id="id3">
+<h2>字符串处理函数<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<section id="subst">
+<h3>subst<a class="headerlink" href="#subst" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">subst</span> &lt;<span class="nv">from</span>&gt;,&lt;<span class="nv">to</span>&gt;,&lt;<span class="nv">text</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul>
+<li><p>名称：字符串替换函数</p></li>
+<li><p>功能：把字串 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">&lt;from&gt;</span></code> 字符串替换成 <code class="docutils literal notranslate"><span class="pre">&lt;to&gt;</span></code> 。</p></li>
+<li><p>返回：函数返回被替换过后的字符串。</p></li>
+<li><p>示例：</p>
+<blockquote>
+<div><div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">subst</span> <span class="nv">ee</span>,<span class="nv">EE</span>,<span class="nv">feet</span> <span class="nv">on</span> <span class="nv">the</span> <span class="nv">street</span><span class="k">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<p>把 <code class="docutils literal notranslate"><span class="pre">feet</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">street</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">ee</span></code> 替换成 <code class="docutils literal notranslate"><span class="pre">EE</span></code> ，返回结果是 <code class="docutils literal notranslate"><span class="pre">fEEt</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">strEEt</span></code> 。</p>
+</section>
+<section id="patsubst">
+<h3>patsubst<a class="headerlink" href="#patsubst" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">patsubst</span> &lt;<span class="nv">pattern</span>&gt;,&lt;<span class="nv">replacement</span>&gt;,&lt;<span class="nv">text</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul>
+<li><p>名称：模式字符串替换函数。</p></li>
+<li><p>功能：查找 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中的单词（单词以“空格”、“Tab”或“回车”“换行”分隔）是否符合模式
+<code class="docutils literal notranslate"><span class="pre">&lt;pattern&gt;</span></code> ，如果匹配的话，则以 <code class="docutils literal notranslate"><span class="pre">&lt;replacement&gt;</span></code> 替换。这里， <code class="docutils literal notranslate"><span class="pre">&lt;pattern&gt;</span></code> 可以包括通配符 <code class="docutils literal notranslate"><span class="pre">%</span></code> ，表示任意长度的字串。如果 <code class="docutils literal notranslate"><span class="pre">&lt;replacement&gt;</span></code> 中也包含 <code class="docutils literal notranslate"><span class="pre">%</span></code> ，那么，
+<code class="docutils literal notranslate"><span class="pre">&lt;replacement&gt;</span></code> 中的这个 <code class="docutils literal notranslate"><span class="pre">%</span></code> 将是 <code class="docutils literal notranslate"><span class="pre">&lt;pattern&gt;</span></code> 中的那个 <code class="docutils literal notranslate"><span class="pre">%</span></code> 所代表的字串。（可以用 <code class="docutils literal notranslate"><span class="pre">\</span></code> 来转义，以 <code class="docutils literal notranslate"><span class="pre">\%</span></code> 来表示真实含义的 <code class="docutils literal notranslate"><span class="pre">%</span></code> 字符）</p></li>
+<li><p>返回：函数返回被替换过后的字符串。</p></li>
+<li><p>示例：</p>
+<blockquote>
+<div><div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">patsubst</span> %<span class="nv">.c</span>,%<span class="nv">.o</span>,<span class="nv">x.c.c</span> <span class="nv">bar.c</span><span class="k">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<p>把字串 <code class="docutils literal notranslate"><span class="pre">x.c.c</span> <span class="pre">bar.c</span></code> 符合模式 <code class="docutils literal notranslate"><span class="pre">%.c</span></code> 的单词替换成 <code class="docutils literal notranslate"><span class="pre">%.o</span></code> ，返回结果是
+<code class="docutils literal notranslate"><span class="pre">x.c.o</span> <span class="pre">bar.o</span></code></p>
+<ul>
+<li><p>备注：这和我们前面“变量章节”说过的相关知识有点相似。如
+<code class="docutils literal notranslate"><span class="pre">$(var:&lt;pattern&gt;=&lt;replacement&gt;;)</span></code> 相当于
+<code class="docutils literal notranslate"><span class="pre">$(patsubst</span> <span class="pre">&lt;pattern&gt;,&lt;replacement&gt;,$(var))</span></code> ，而
+<code class="docutils literal notranslate"><span class="pre">$(var:</span> <span class="pre">&lt;suffix&gt;=&lt;replacement&gt;)</span></code> 则相当于
+<code class="docutils literal notranslate"><span class="pre">$(patsubst</span> <span class="pre">%&lt;suffix&gt;,%&lt;replacement&gt;,$(var))</span></code> 。</p>
+<p>例如有:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>objects = foo.o bar.o baz.o，
+</pre></div>
+</div>
+<p>那么， <code class="docutils literal notranslate"><span class="pre">$(objects:.o=.c)</span></code> 和 <code class="docutils literal notranslate"><span class="pre">$(patsubst</span> <span class="pre">%.o,%.c,$(objects))</span></code> 是一样的。</p>
+</li>
+</ul>
+</section>
+<section id="strip">
+<h3>strip<a class="headerlink" href="#strip" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">strip</span> &lt;<span class="nv">string</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul>
+<li><p>名称：去空格函数。</p></li>
+<li><p>功能：去掉 <code class="docutils literal notranslate"><span class="pre">&lt;string&gt;</span></code> 字串中开头和结尾的空字符。</p></li>
+<li><p>返回：返回被去掉空格的字符串值。</p></li>
+<li><p>示例：</p>
+<blockquote>
+<div><div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">strip</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span> <span class="k">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>把字串 <code class="docutils literal notranslate"><span class="pre">a b c&nbsp;</span></code> 去掉开头和结尾的空格，结果是 <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">b</span> <span class="pre">c</span></code>。</p>
+</li>
+</ul>
+</section>
+<section id="findstring">
+<h3>findstring<a class="headerlink" href="#findstring" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">findstring</span> &lt;<span class="nv">find</span>&gt;,&lt;<span class="nv">in</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul>
+<li><p>名称：查找字符串函数</p></li>
+<li><p>功能：在字串 <code class="docutils literal notranslate"><span class="pre">&lt;in&gt;</span></code> 中查找 <code class="docutils literal notranslate"><span class="pre">&lt;find&gt;</span></code> 字串。</p></li>
+<li><p>返回：如果找到，那么返回 <code class="docutils literal notranslate"><span class="pre">&lt;find&gt;</span></code> ，否则返回空字符串。</p></li>
+<li><p>示例：</p>
+<blockquote>
+<div><div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">findstring</span> <span class="nv">a</span>,<span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="k">)</span>
+<span class="k">$(</span><span class="nv">findstring</span> <span class="nv">a</span>,<span class="nv">b</span> <span class="nv">c</span><span class="k">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<p>第一个函数返回 <code class="docutils literal notranslate"><span class="pre">a</span></code> 字符串，第二个返回空字符串</p>
+</section>
+<section id="filter">
+<h3>filter<a class="headerlink" href="#filter" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">filter</span> &lt;<span class="nv">pattern...</span>&gt;,&lt;<span class="nv">text</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul>
+<li><p>名称：过滤函数</p></li>
+<li><p>功能：以 <code class="docutils literal notranslate"><span class="pre">&lt;pattern&gt;</span></code> 模式过滤 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 字符串中的单词，保留符合模式
+<code class="docutils literal notranslate"><span class="pre">&lt;pattern&gt;</span></code> 的单词。可以有多个模式。</p></li>
+<li><p>返回：返回符合模式 <code class="docutils literal notranslate"><span class="pre">&lt;pattern&gt;</span></code> 的字串。</p></li>
+<li><p>示例：</p>
+<blockquote>
+<div><div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">sources</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span>foo.c<span class="w"> </span>bar.c<span class="w"> </span>baz.s<span class="w"> </span>ugh.h
+<span class="nf">foo</span><span class="o">:</span><span class="w"> </span><span class="k">$(</span><span class="nv">sources</span><span class="k">)</span>
+<span class="w">    </span>cc<span class="w"> </span><span class="k">$(</span>filter<span class="w"> </span>%.c<span class="w"> </span>%.s,<span class="k">$(</span>sources<span class="k">))</span><span class="w"> </span>-o<span class="w"> </span>foo
+</pre></div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">$(filter</span> <span class="pre">%.c</span> <span class="pre">%.s,$(sources))</span></code> 返回的值是 <code class="docutils literal notranslate"><span class="pre">foo.c</span> <span class="pre">bar.c</span> <span class="pre">baz.s</span></code> 。</p>
+</li>
+</ul>
+</section>
+<section id="filter-out">
+<h3>filter-out<a class="headerlink" href="#filter-out" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">filter-out</span> &lt;<span class="nv">pattern...</span>&gt;,&lt;<span class="nv">text</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul>
+<li><p>名称：反过滤函数</p></li>
+<li><p>功能：以 <code class="docutils literal notranslate"><span class="pre">&lt;pattern&gt;</span></code> 模式过滤 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 字符串中的单词，去除符合模式
+<code class="docutils literal notranslate"><span class="pre">&lt;pattern&gt;</span></code> 的单词。可以有多个模式。</p></li>
+<li><p>返回：返回不符合模式 <code class="docutils literal notranslate"><span class="pre">&lt;pattern&gt;</span></code> 的字串。</p></li>
+<li><p>示例：</p>
+<blockquote>
+<div><div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">objects</span><span class="o">=</span>main1.o<span class="w"> </span>foo.o<span class="w"> </span>main2.o<span class="w"> </span>bar.o
+<span class="nv">mains</span><span class="o">=</span>main1.o<span class="w"> </span>main2.o
+</pre></div>
+</div>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">$(filter-out</span> <span class="pre">$(mains),$(objects))</span></code> 返回值是 <code class="docutils literal notranslate"><span class="pre">foo.o</span> <span class="pre">bar.o</span></code> 。</p>
+</li>
+</ul>
+</section>
+<section id="sort">
+<h3>sort<a class="headerlink" href="#sort" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">sort</span> &lt;<span class="nv">list</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：排序函数</p></li>
+<li><p>功能：给字符串 <code class="docutils literal notranslate"><span class="pre">&lt;list&gt;</span></code> 中的单词排序（升序）。</p></li>
+<li><p>返回：返回排序后的字符串。</p></li>
+<li><p>示例： <code class="docutils literal notranslate"><span class="pre">$(sort</span> <span class="pre">foo</span> <span class="pre">bar</span> <span class="pre">lose)</span></code> 返回 <code class="docutils literal notranslate"><span class="pre">bar</span> <span class="pre">foo</span> <span class="pre">lose</span></code> 。</p></li>
+<li><p>备注： <code class="docutils literal notranslate"><span class="pre">sort</span></code> 函数会去掉 <code class="docutils literal notranslate"><span class="pre">&lt;list&gt;</span></code> 中相同的单词。</p></li>
+</ul>
+</section>
+<section id="word">
+<h3>word<a class="headerlink" href="#word" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">word</span> &lt;<span class="nv">n</span>&gt;,&lt;<span class="nv">text</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：取单词函数</p></li>
+<li><p>功能：取字符串 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中第 <code class="docutils literal notranslate"><span class="pre">&lt;n&gt;</span></code> 个单词。（从一开始）</p></li>
+<li><p>返回：返回字符串 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中第 <code class="docutils literal notranslate"><span class="pre">&lt;n&gt;</span></code> 个单词。如果 <code class="docutils literal notranslate"><span class="pre">&lt;n&gt;</span></code> 比 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中的单词数要大，那么返回空字符串。</p></li>
+<li><p>示例： <code class="docutils literal notranslate"><span class="pre">$(word</span> <span class="pre">2,</span> <span class="pre">foo</span> <span class="pre">bar</span> <span class="pre">baz)</span></code> 返回值是 <code class="docutils literal notranslate"><span class="pre">bar</span></code> 。</p></li>
+</ul>
+</section>
+<section id="wordlist">
+<h3>wordlist<a class="headerlink" href="#wordlist" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">wordlist</span> &lt;<span class="nv">ss</span>&gt;,&lt;<span class="nv">e</span>&gt;,&lt;<span class="nv">text</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：取单词串函数</p></li>
+<li><p>功能：从字符串 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中取从 <code class="docutils literal notranslate"><span class="pre">&lt;ss&gt;</span></code> 开始到 <code class="docutils literal notranslate"><span class="pre">&lt;e&gt;</span></code> 的单词串。 <code class="docutils literal notranslate"><span class="pre">&lt;ss&gt;</span></code>
+和 <code class="docutils literal notranslate"><span class="pre">&lt;e&gt;</span></code> 是一个数字。</p></li>
+<li><p>返回：返回字符串 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中从 <code class="docutils literal notranslate"><span class="pre">&lt;ss&gt;</span></code> 到 <code class="docutils literal notranslate"><span class="pre">&lt;e&gt;</span></code> 的单词字串。如果 <code class="docutils literal notranslate"><span class="pre">&lt;ss&gt;</span></code>
+比 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中的单词数要大，那么返回空字符串。如果 <code class="docutils literal notranslate"><span class="pre">&lt;e&gt;</span></code> 大于 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 的单词数，那么返回从 <code class="docutils literal notranslate"><span class="pre">&lt;ss&gt;</span></code> 开始，到 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 结束的单词串。</p></li>
+<li><p>示例： <code class="docutils literal notranslate"><span class="pre">$(wordlist</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">foo</span> <span class="pre">bar</span> <span class="pre">baz)</span></code> 返回值是 <code class="docutils literal notranslate"><span class="pre">bar</span> <span class="pre">baz</span></code> 。</p></li>
+</ul>
+</section>
+<section id="words">
+<h3>words<a class="headerlink" href="#words" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">words</span> &lt;<span class="nv">text</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：单词个数统计函数</p></li>
+<li><p>功能：统计 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中字符串中的单词个数。</p></li>
+<li><p>返回：返回 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中的单词数。</p></li>
+<li><p>示例： <code class="docutils literal notranslate"><span class="pre">$(words,</span> <span class="pre">foo</span> <span class="pre">bar</span> <span class="pre">baz)</span></code> 返回值是 <code class="docutils literal notranslate"><span class="pre">3</span></code> 。</p></li>
+<li><p>备注：如果我们要取 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中最后的一个单词，我们可以这样：
+<code class="docutils literal notranslate"><span class="pre">$(word</span> <span class="pre">$(words</span> <span class="pre">&lt;text&gt;),&lt;text&gt;)</span></code> 。</p></li>
+</ul>
+</section>
+<section id="firstword">
+<h3>firstword<a class="headerlink" href="#firstword" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">firstword</span> &lt;<span class="nv">text</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：首单词函数——firstword。</p></li>
+<li><p>功能：取字符串 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中的第一个单词。</p></li>
+<li><p>返回：返回字符串 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 的第一个单词。</p></li>
+<li><p>示例： <code class="docutils literal notranslate"><span class="pre">$(firstword</span> <span class="pre">foo</span> <span class="pre">bar)</span></code> 返回值是 <code class="docutils literal notranslate"><span class="pre">foo</span></code>。</p></li>
+<li><p>备注：这个函数可以用 <code class="docutils literal notranslate"><span class="pre">word</span></code> 函数来实现： <code class="docutils literal notranslate"><span class="pre">$(word</span> <span class="pre">1,&lt;text&gt;)</span></code> 。</p></li>
+</ul>
+<p>以上，是所有的字符串操作函数，如果搭配混合使用，可以完成比较复杂的功能。这里，举一个现实中应用的例子。我们知道，make使用 <code class="docutils literal notranslate"><span class="pre">VPATH</span></code> 变量来指定“依赖文件”的搜索路径。于是，我们可以利用这个搜索路径来指定编译器对头文件的搜索路径参数 <code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code> ，如：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">override CFLAGS += $(patsubst %,-I%,$(subst </span><span class="o">:</span><span class="p">,</span> <span class="p">,</span><span class="k">$(</span><span class="nv">VPATH</span><span class="k">)</span>))
+</pre></div>
+</div>
+<p>如果我们的 <code class="docutils literal notranslate"><span class="pre">$(VPATH)</span></code> 值是 <code class="docutils literal notranslate"><span class="pre">src:../headers</span></code> ，那么
+<code class="docutils literal notranslate"><span class="pre">$(patsubst</span> <span class="pre">%,-I%,$(subst</span> <span class="pre">:,</span> <span class="pre">,$(VPATH)))</span></code> 将返回 <code class="docutils literal notranslate"><span class="pre">-Isrc</span> <span class="pre">-I../headers</span></code> ，这正是cc或gcc搜索头文件路径的参数。</p>
+</section>
+</section>
+<section id="id4">
+<h2>文件名操作函数<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>下面我们要介绍的函数主要是处理文件名的。每个函数的参数字符串都会被当做一个或是一系列的文件名来对待。</p>
+<section id="dir">
+<h3>dir<a class="headerlink" href="#dir" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">dir</span> &lt;<span class="nv">names...</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：取目录函数——dir。</p></li>
+<li><p>功能：从文件名序列 <code class="docutils literal notranslate"><span class="pre">&lt;names&gt;</span></code> 中取出目录部分。目录部分是指最后一个反斜杠（ <code class="docutils literal notranslate"><span class="pre">/</span></code> ）之前的部分。如果没有反斜杠，那么返回 <code class="docutils literal notranslate"><span class="pre">./</span></code> 。</p></li>
+<li><p>返回：返回文件名序列 <code class="docutils literal notranslate"><span class="pre">&lt;names&gt;</span></code> 的目录部分。</p></li>
+<li><p>示例： <code class="docutils literal notranslate"><span class="pre">$(dir</span> <span class="pre">src/foo.c</span> <span class="pre">hacks)</span></code> 返回值是 <code class="docutils literal notranslate"><span class="pre">src/</span> <span class="pre">./</span></code> 。</p></li>
+</ul>
+</section>
+<section id="notdir">
+<h3>notdir<a class="headerlink" href="#notdir" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">notdir</span> &lt;<span class="nv">names...</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：取文件函数——notdir。</p></li>
+<li><p>功能：从文件名序列 <code class="docutils literal notranslate"><span class="pre">&lt;names&gt;</span></code> 中取出非目录部分。非目录部分是指最後一个反斜杠（ <code class="docutils literal notranslate"><span class="pre">/</span></code> ）之后的部分。</p></li>
+<li><p>返回：返回文件名序列 <code class="docutils literal notranslate"><span class="pre">&lt;names&gt;</span></code> 的非目录部分。</p></li>
+<li><p>示例:  <code class="docutils literal notranslate"><span class="pre">$(notdir</span> <span class="pre">src/foo.c</span> <span class="pre">hacks)</span></code> 返回值是 <code class="docutils literal notranslate"><span class="pre">foo.c</span> <span class="pre">hacks</span></code> 。</p></li>
+</ul>
+</section>
+<section id="suffix">
+<h3>suffix<a class="headerlink" href="#suffix" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">suffix</span> &lt;<span class="nv">names...</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：取後缀函数——suffix。</p></li>
+<li><p>功能：从文件名序列 <code class="docutils literal notranslate"><span class="pre">&lt;names&gt;</span></code> 中取出各个文件名的后缀。</p></li>
+<li><p>返回：返回文件名序列 <code class="docutils literal notranslate"><span class="pre">&lt;names&gt;</span></code> 的后缀序列，如果文件没有后缀，则返回空字串。</p></li>
+<li><p>示例： <code class="docutils literal notranslate"><span class="pre">$(suffix</span> <span class="pre">src/foo.c</span> <span class="pre">src-1.0/bar.c</span> <span class="pre">hacks)</span></code> 返回值是 <code class="docutils literal notranslate"><span class="pre">.c</span> <span class="pre">.c</span></code>。</p></li>
+</ul>
+</section>
+<section id="basename">
+<h3>basename<a class="headerlink" href="#basename" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">basename</span> &lt;<span class="nv">names...</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：取前缀函数——basename。</p></li>
+<li><p>功能：从文件名序列 <code class="docutils literal notranslate"><span class="pre">&lt;names&gt;</span></code> 中取出各个文件名的前缀部分。</p></li>
+<li><p>返回：返回文件名序列 <code class="docutils literal notranslate"><span class="pre">&lt;names&gt;</span></code> 的前缀序列，如果文件没有前缀，则返回空字串。</p></li>
+<li><p>示例： <code class="docutils literal notranslate"><span class="pre">$(basename</span> <span class="pre">src/foo.c</span> <span class="pre">src-1.0/bar.c</span> <span class="pre">hacks)</span></code> 返回值是
+<code class="docutils literal notranslate"><span class="pre">src/foo</span> <span class="pre">src-1.0/bar</span> <span class="pre">hacks</span></code> 。</p></li>
+</ul>
+</section>
+<section id="addsuffix">
+<h3>addsuffix<a class="headerlink" href="#addsuffix" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">addsuffix</span> &lt;<span class="nv">suffix</span>&gt;,&lt;<span class="nv">names...</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：加后缀函数——addsuffix。</p></li>
+<li><p>功能：把后缀 <code class="docutils literal notranslate"><span class="pre">&lt;suffix&gt;</span></code> 加到 <code class="docutils literal notranslate"><span class="pre">&lt;names&gt;</span></code> 中的每个单词后面。</p></li>
+<li><p>返回：返回加过后缀的文件名序列。</p></li>
+<li><p>示例： <code class="docutils literal notranslate"><span class="pre">$(addsuffix</span> <span class="pre">.c,foo</span> <span class="pre">bar)</span></code> 返回值是 <code class="docutils literal notranslate"><span class="pre">foo.c</span> <span class="pre">bar.c</span></code> 。</p></li>
+</ul>
+</section>
+<section id="addprefix">
+<h3>addprefix<a class="headerlink" href="#addprefix" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">addprefix</span> &lt;<span class="nv">prefix</span>&gt;,&lt;<span class="nv">names...</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：加前缀函数——addprefix。</p></li>
+<li><p>功能：把前缀 <code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;</span></code> 加到 <code class="docutils literal notranslate"><span class="pre">&lt;names&gt;</span></code> 中的每个单词前面。</p></li>
+<li><p>返回：返回加过前缀的文件名序列。</p></li>
+<li><p>示例： <code class="docutils literal notranslate"><span class="pre">$(addprefix</span> <span class="pre">src/,foo</span> <span class="pre">bar)</span></code> 返回值是 <code class="docutils literal notranslate"><span class="pre">src/foo</span> <span class="pre">src/bar</span></code> 。</p></li>
+</ul>
+</section>
+<section id="join">
+<h3>join<a class="headerlink" href="#join" title="Link to this heading">¶</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">join</span> &lt;<span class="nv">list1</span>&gt;,&lt;<span class="nv">list2</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>名称：连接函数——join。</p></li>
+<li><p>功能：把 <code class="docutils literal notranslate"><span class="pre">&lt;list2&gt;</span></code> 中的单词对应地加到 <code class="docutils literal notranslate"><span class="pre">&lt;list1&gt;</span></code> 的单词后面。如果 <code class="docutils literal notranslate"><span class="pre">&lt;list1&gt;</span></code> 的单词个数要比 <code class="docutils literal notranslate"><span class="pre">&lt;list2&gt;</span></code> 的多，那么， <code class="docutils literal notranslate"><span class="pre">&lt;list1&gt;</span></code> 中的多出来的单词将保持原样。如果
+<code class="docutils literal notranslate"><span class="pre">&lt;list2&gt;</span></code> 的单词个数要比 <code class="docutils literal notranslate"><span class="pre">&lt;list1&gt;</span></code> 多，那么， <code class="docutils literal notranslate"><span class="pre">&lt;list2&gt;</span></code> 多出来的单词将被复制到
+<code class="docutils literal notranslate"><span class="pre">&lt;list1&gt;</span></code> 中。</p></li>
+<li><p>返回：返回连接过后的字符串。</p></li>
+<li><p>示例： <code class="docutils literal notranslate"><span class="pre">$(join</span> <span class="pre">aaa</span> <span class="pre">bbb</span> <span class="pre">,</span> <span class="pre">111</span> <span class="pre">222</span> <span class="pre">333)</span></code> 返回值是 <code class="docutils literal notranslate"><span class="pre">aaa111</span> <span class="pre">bbb222</span> <span class="pre">333</span></code> 。</p></li>
+</ul>
+</section>
+</section>
+<section id="foreach">
+<h2>foreach 函数<a class="headerlink" href="#foreach" title="Link to this heading">¶</a></h2>
+<p>foreach函数和别的函数非常的不一样。因为这个函数是用来做循环用的，Makefile中的foreach函数几乎是仿照于Unix标准Shell（/bin/sh）中的for语句，或是C-Shell（/bin/csh）中的foreach语句而构建的。它的语法是：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">foreach</span> &lt;<span class="nv">var</span>&gt;,&lt;<span class="nv">list</span>&gt;,&lt;<span class="nv">text</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<p>这个函数的意思是，把参数 <code class="docutils literal notranslate"><span class="pre">&lt;list&gt;</span></code> 中的单词逐一取出放到参数 <code class="docutils literal notranslate"><span class="pre">&lt;var&gt;</span></code> 所指定的变量中，然后再执行 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 所包含的表达式。每一次 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 会返回一个字符串，循环过程中，
+<code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 的所返回的每个字符串会以空格分隔，最后当整个循环结束时， <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 所返回的每个字符串所组成的整个字符串（以空格分隔）将会是foreach函数的返回值。</p>
+<p>所以， <code class="docutils literal notranslate"><span class="pre">&lt;var&gt;</span></code> 最好是一个变量名， <code class="docutils literal notranslate"><span class="pre">&lt;list&gt;</span></code> 可以是一个表达式，而 <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code> 中一般会使用 <code class="docutils literal notranslate"><span class="pre">&lt;var&gt;</span></code> 这个参数来依次枚举 <code class="docutils literal notranslate"><span class="pre">&lt;list&gt;</span></code> 中的单词。举个例子：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">names</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span>a<span class="w"> </span>b<span class="w"> </span>c<span class="w"> </span>d
+
+<span class="nv">files</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>foreach<span class="w"> </span>n,<span class="k">$(</span>names<span class="k">)</span>,<span class="k">$(</span>n<span class="k">)</span>.o<span class="k">)</span>
+</pre></div>
+</div>
+<p>上面的例子中， <code class="docutils literal notranslate"><span class="pre">$(name)</span></code> 中的单词会被挨个取出，并存到变量 <code class="docutils literal notranslate"><span class="pre">n</span></code> 中， <code class="docutils literal notranslate"><span class="pre">$(n).o</span></code> 每次根据 <code class="docutils literal notranslate"><span class="pre">$(n)</span></code> 计算出一个值，这些值以空格分隔，最后作为foreach函数的返回，所以， <code class="docutils literal notranslate"><span class="pre">$(files)</span></code>
+的值是 <code class="docutils literal notranslate"><span class="pre">a.o</span> <span class="pre">b.o</span> <span class="pre">c.o</span> <span class="pre">d.o</span></code> 。</p>
+<p>注意，foreach中的 <code class="docutils literal notranslate"><span class="pre">&lt;var&gt;</span></code> 参数是一个临时的局部变量，foreach函数执行完后，参数 <code class="docutils literal notranslate"><span class="pre">&lt;var&gt;</span></code>
+的变量将不在作用，其作用域只在foreach函数当中。</p>
+</section>
+<section id="if">
+<h2>if 函数<a class="headerlink" href="#if" title="Link to this heading">¶</a></h2>
+<p>if函数很像GNU的make所支持的条件语句——ifeq（参见前面所述的章节），if函数的语法是：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">if</span> &lt;<span class="nv">condition</span>&gt;,&lt;<span class="nv">then-part</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<p>或是</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">if</span> &lt;<span class="nv">condition</span>&gt;,&lt;<span class="nv">then-part</span>&gt;,&lt;<span class="nv">else-part</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<p>可见，if函数可以包含“else”部分，或是不含。即if函数的参数可以是两个，也可以是三个。
+<code class="docutils literal notranslate"><span class="pre">&lt;condition&gt;</span></code> 参数是if的表达式，如果其返回的为非空字符串，那么这个表达式就相当于返回真，于是， <code class="docutils literal notranslate"><span class="pre">&lt;then-part&gt;</span></code> 会被计算，否则 <code class="docutils literal notranslate"><span class="pre">&lt;else-part&gt;</span></code> 会被计算。</p>
+<p>而if函数的返回值是，如果 <code class="docutils literal notranslate"><span class="pre">&lt;condition&gt;</span></code> 为真（非空字符串），那个 <code class="docutils literal notranslate"><span class="pre">&lt;then-part&gt;</span></code>
+会是整个函数的返回值，如果 <code class="docutils literal notranslate"><span class="pre">&lt;condition&gt;</span></code> 为假（空字符串），那么 <code class="docutils literal notranslate"><span class="pre">&lt;else-part&gt;</span></code> 会是整个函数的返回值，此时如果 <code class="docutils literal notranslate"><span class="pre">&lt;else-part&gt;</span></code> 没有被定义，那么，整个函数返回空字串。</p>
+<p>所以， <code class="docutils literal notranslate"><span class="pre">&lt;then-part&gt;</span></code> 和 <code class="docutils literal notranslate"><span class="pre">&lt;else-part&gt;</span></code> 只会有一个被计算。</p>
+</section>
+<section id="call">
+<h2>call函数<a class="headerlink" href="#call" title="Link to this heading">¶</a></h2>
+<p>call函数是唯一一个可以用来创建新的参数化的函数。你可以写一个非常复杂的表达式，这个表达式中，你可以定义许多参数，然后你可以call函数来向这个表达式传递参数。其语法是：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">call</span> &lt;<span class="nv">expression</span>&gt;,&lt;<span class="nv">parm1</span>&gt;,&lt;<span class="nv">parm2</span>&gt;,<span class="nv">...</span>,&lt;<span class="nv">parmn</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<p>当make执行这个函数时， <code class="docutils literal notranslate"><span class="pre">&lt;expression&gt;</span></code> 参数中的变量，如 <code class="docutils literal notranslate"><span class="pre">$(1)</span></code> 、 <code class="docutils literal notranslate"><span class="pre">$(2)</span></code> 等，会被参数 <code class="docutils literal notranslate"><span class="pre">&lt;parm1&gt;</span></code> 、 <code class="docutils literal notranslate"><span class="pre">&lt;parm2&gt;</span></code> 、 <code class="docutils literal notranslate"><span class="pre">&lt;parm3&gt;</span></code> 依次取代。而 <code class="docutils literal notranslate"><span class="pre">&lt;expression&gt;</span></code> 的返回值就是 call 函数的返回值。例如：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">reverse</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="k">$(</span><span class="m">1</span><span class="k">)</span><span class="w"> </span><span class="k">$(</span><span class="m">2</span><span class="k">)</span>
+
+<span class="nv">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">$(</span>call<span class="w"> </span>reverse,a,b<span class="k">)</span>
+</pre></div>
+</div>
+<p>那么， <code class="docutils literal notranslate"><span class="pre">foo</span></code> 的值就是 <code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">b</span></code> 。当然，参数的次序是可以自定义的，不一定是顺序的，如：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">reverse</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="k">$(</span><span class="m">2</span><span class="k">)</span><span class="w"> </span><span class="k">$(</span><span class="m">1</span><span class="k">)</span>
+
+<span class="nv">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">$(</span>call<span class="w"> </span>reverse,a,b<span class="k">)</span>
+</pre></div>
+</div>
+<p>此时的 <code class="docutils literal notranslate"><span class="pre">foo</span></code> 的值就是 <code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">a</span></code> 。</p>
+<p>需要注意：在向 call 函数传递参数时要尤其注意空格的使用。call 函数在处理参数时，第2个及其之后的参数中的空格会被保留，因而可能造成一些奇怪的效果。因而在向call函数提供参数时，最安全的做法是去除所有多余的空格。</p>
+</section>
+<section id="origin">
+<h2>origin函数<a class="headerlink" href="#origin" title="Link to this heading">¶</a></h2>
+<p>origin函数不像其它的函数，他并不操作变量的值，他只是告诉你你的这个变量是哪里来的？其语法是：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">origin</span> &lt;<span class="nv">variable</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>注意， <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> 是变量的名字，不应该是引用。所以你最好不要在 <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> 中使用</dt><dd><p><code class="docutils literal notranslate"><span class="pre">$</span></code> 字符。Origin函数会以其返回值来告诉你这个变量的“出生情况”，下面，是origin函数的返回值:</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">undefined</span></code></dt><dd><p>如果 <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> 从来没有定义过，origin函数返回这个值 <code class="docutils literal notranslate"><span class="pre">undefined</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">default</span></code></dt><dd><p>如果 <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> 是一个默认的定义，比如“CC”这个变量，这种变量我们将在后面讲述。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">environment</span></code></dt><dd><p>如果 <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> 是一个环境变量，并且当Makefile被执行时， <code class="docutils literal notranslate"><span class="pre">-e</span></code> 参数没有被打开。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">file</span></code></dt><dd><p>如果 <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> 这个变量被定义在Makefile中。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">line</span></code></dt><dd><p>如果 <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> 这个变量是被命令行定义的。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">override</span></code></dt><dd><p>如果 <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> 是被override指示符重新定义的。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">automatic</span></code></dt><dd><p>如果 <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> 是一个命令运行中的自动化变量。关于自动化变量将在后面讲述。</p>
+</dd>
+</dl>
+<p>这些信息对于我们编写Makefile是非常有用的，例如，假设我们有一个Makefile其包了一个定义文件
+Make.def，在 Make.def中定义了一个变量“bletch”，而我们的环境中也有一个环境变量“bletch”，此时，我们想判断一下，如果变量来源于环境，那么我们就把之重定义了，如果来源于Make.def或是命令行等非环境的，那么我们就不重新定义它。于是，在我们的Makefile中，我们可以这样写：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="cp">ifdef bletch</span>
+<span class="cp">    ifeq &quot;$(origin bletch)&quot; &quot;environment&quot;</span>
+<span class="w">        </span><span class="nv">bletch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>barf,<span class="w"> </span>gag,<span class="w"> </span>etc.
+<span class="cp">    endif</span>
+<span class="cp">endif</span>
+</pre></div>
+</div>
+<p>当然，你也许会说，使用 <code class="docutils literal notranslate"><span class="pre">override</span></code> 关键字不就可以重新定义环境中的变量了吗？为什么需要使用这样的步骤？是的，我们用 <code class="docutils literal notranslate"><span class="pre">override</span></code> 是可以达到这样的效果，可是 <code class="docutils literal notranslate"><span class="pre">override</span></code> 过于粗暴，它同时会把从命令行定义的变量也覆盖了，而我们只想重新定义环境传来的，而不想重新定义命令行传来的。</p>
+</section>
+<section id="shell">
+<h2>shell函数<a class="headerlink" href="#shell" title="Link to this heading">¶</a></h2>
+<p>shell函数也不像其它的函数。顾名思义，它的参数应该就是操作系统Shell的命令。它和反引号“`”是相同的功能。这就是说，shell函数把执行操作系统命令后的输出作为函数返回。于是，我们可以用操作系统命令以及字符串处理命令awk，sed等等命令来生成一个变量，如：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">contents</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>shell<span class="w"> </span>cat<span class="w"> </span>foo<span class="k">)</span>
+<span class="nv">files</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>shell<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>*.c<span class="k">)</span>
+</pre></div>
+</div>
+<p>注意，这个函数会新生成一个Shell程序来执行命令，所以你要注意其运行性能，如果你的Makefile中有一些比较复杂的规则，并大量使用了这个函数，那么对于你的系统性能是有害的。特别是Makefile的隐式规则可能会让你的shell函数执行的次数比你想像的多得多。</p>
+</section>
+<section id="make">
+<h2>控制make的函数<a class="headerlink" href="#make" title="Link to this heading">¶</a></h2>
+<p>make提供了一些函数来控制make的运行。通常，你需要检测一些运行Makefile时的运行时信息，并且根据这些信息来决定，你是让make继续执行，还是停止。</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">error</span> &lt;<span class="nv">text</span> <span class="nv">...</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<p>产生一个致命的错误， <code class="docutils literal notranslate"><span class="pre">&lt;text</span> <span class="pre">...&gt;</span></code> 是错误信息。注意，error函数不会在一被使用就会产生错误信息，所以如果你把其定义在某个变量中，并在后续的脚本中使用这个变量，那么也是可以的。例如：</p>
+<p>示例一：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="cp">ifdef ERROR_001</span>
+<span class="w">    </span><span class="k">$(</span>error<span class="w"> </span>error<span class="w"> </span>is<span class="w"> </span><span class="k">$(</span>ERROR_001<span class="k">))</span>
+<span class="cp">endif</span>
+</pre></div>
+</div>
+<p>示例二：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">ERR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">$(</span>error<span class="w"> </span>found<span class="w"> </span>an<span class="w"> </span>error!<span class="k">)</span>
+
+<span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">err</span>
+
+<span class="nf">err</span><span class="o">:</span><span class="w"> </span><span class="k">$(</span><span class="nv">ERR</span><span class="k">)</span>
+</pre></div>
+</div>
+<p>示例一会在变量ERROR_001定义了后执行时产生error调用，而示例二则在目录err被执行时才发生error调用。</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="k">$(</span><span class="nv">warning</span> &lt;<span class="nv">text</span> <span class="nv">...</span>&gt;<span class="k">)</span>
+</pre></div>
+</div>
+<p>这个函数很像error函数，只是它并不会让make退出，只是输出一段警告信息，而make继续执行。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="conditionals.html" class="btn btn-neutral float-left" title="使用条件判断" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="invoke.html" class="btn btn-neutral float-right" title="make 的运行" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2014-2019, 作者：陈皓；排版：SeisMan.
+      <span class="lastupdated">最后更新于 2024年10月15日.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

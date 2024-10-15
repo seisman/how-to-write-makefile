@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>make 的运行 &mdash; 跟我一起写Makefile 1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/documentation_options.js?v=f115507d"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="隐含规则" href="implicit_rules.html" />
+    <link rel="prev" title="使用函数" href="functions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            跟我一起写Makefile
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">makefile介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">书写规则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recipes.html">书写命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variables.html">使用变量</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionals.html">使用条件判断</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">使用函数</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">make 的运行</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">make的退出码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#makefile">指定Makefile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">指定目标</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">检查规则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">make的参数</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="implicit_rules.html">隐含规则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="archives.html">使用make更新函数库文件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postscript.html">后序</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">跟我一起写Makefile</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">make 的运行</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/invoke.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="make">
+<h1>make 的运行<a class="headerlink" href="#make" title="Link to this heading">¶</a></h1>
+<p>一般来说，最简单的就是直接在命令行下输入make命令，make命令会找当前目录的makefile来执行，一切都是自动的。但也有时你也许只想让make重编译某些文件，而不是整个工程，而又有的时候你有几套编译规则，你想在不同的时候使用不同的编译规则，等等。本章节就是讲述如何使用make命令的。</p>
+<section id="id1">
+<h2>make的退出码<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>make命令执行后有三个退出码：</p>
+<dl class="simple">
+<dt>0</dt><dd><p>表示成功执行。</p>
+</dd>
+<dt>1</dt><dd><p>如果make运行时出现任何错误，其返回1。</p>
+</dd>
+<dt>2</dt><dd><p>如果你使用了make的“-q”选项，并且make使得一些目标不需要更新，那么返回2。</p>
+</dd>
+</dl>
+<p>Make的相关参数我们会在后续章节中讲述。</p>
+</section>
+<section id="makefile">
+<h2>指定Makefile<a class="headerlink" href="#makefile" title="Link to this heading">¶</a></h2>
+<p>前面我们说过，GNU make找寻默认的Makefile的规则是在当前目录下依次找三个文件——“GNUmakefile”、“makefile”和“Makefile”。其按顺序找这三个文件，一旦找到，就开始读取这个文件并执行。</p>
+<p>当前，我们也可以给make命令指定一个特殊名字的Makefile。要达到这个功能，我们要使用make的
+<code class="docutils literal notranslate"><span class="pre">-f</span></code> 或是 <code class="docutils literal notranslate"><span class="pre">--file</span></code> 参数（ <code class="docutils literal notranslate"><span class="pre">--makefile</span></code> 参数也行）。例如，我们有个makefile的名字是“hchen.mk”，那么，我们可以这样来让make来执行这个文件：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>make –f hchen.mk
+</pre></div>
+</div>
+<p>如果在make的命令行是，你不只一次地使用了 <code class="docutils literal notranslate"><span class="pre">-f</span></code> 参数，那么，所有指定的makefile将会被连在一起传递给make执行。</p>
+</section>
+<section id="id2">
+<h2>指定目标<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>一般来说，make的最终目标是makefile中的第一个目标，而其它目标一般是由这个目标连带出来的。这是make的默认行为。当然，一般来说，你的makefile中的第一个目标是由许多个目标组成，你可以指示make，让其完成你所指定的目标。要达到这一目的很简单，需在make命令后直接跟目标的名字就可以完成（如前面提到的“make clean”形式）</p>
+<p>任何在makefile中的目标都可以被指定成终极目标，但是除了以 <code class="docutils literal notranslate"><span class="pre">-</span></code> 打头，或是包含了 <code class="docutils literal notranslate"><span class="pre">=</span></code> 的目标，因为有这些字符的目标，会被解析成命令行参数或是变量。甚至没有被我们明确写出来的目标也可以成为make的终极目标，也就是说，只要make可以找到其隐含规则推导规则，那么这个隐含目标同样可以被指定成终极目标。</p>
+<p>有一个make的环境变量叫 <code class="docutils literal notranslate"><span class="pre">MAKECMDGOALS</span></code> ，这个变量中会存放你所指定的终极目标的列表，如果在命令行上，你没有指定目标，那么，这个变量是空值。这个变量可以让你使用在一些比较特殊的情形下。比如下面的例子：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">sources</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>foo.c<span class="w"> </span>bar.c
+<span class="cp">ifneq ( $(MAKECMDGOALS),clean)</span>
+<span class="cp">    include $(sources:.c=.d)</span>
+<span class="cp">endif</span>
+</pre></div>
+</div>
+<p>基于上面的这个例子，只要我们输入的命令不是“make clean”，那么makefile会自动包含“foo.d”和“bar.d”这两个makefile。</p>
+<p>使用指定终极目标的方法可以很方便地让我们编译我们的程序，例如下面这个例子：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">.PHONY</span><span class="o">:</span><span class="w"> </span><span class="n">all</span>
+<span class="nf">all</span><span class="o">:</span><span class="w"> </span><span class="n">prog</span>1 <span class="n">prog</span>2 <span class="n">prog</span>3 <span class="n">prog</span>4
+</pre></div>
+</div>
+<p>从这个例子中，我们可以看到，这个makefile中有四个需要编译的程序——“prog1”， “prog2”，“prog3”和  “prog4”，我们可以使用“make all”命令来编译所有的目标（如果把all置成第一个目标，那么只需执行“make”），我们也可以使用 “make prog2”来单独编译目标“prog2”。</p>
+<p>即然make可以指定所有makefile中的目标，那么也包括“伪目标”，于是我们可以根据这种性质来让我们的makefile根据指定的不同的目标来完成不同的事。在Unix世界中，软件发布时，特别是GNU这种开源软件的发布时，其makefile都包含了编译、安装、打包等功能。我们可以参照这种规则来书写我们的makefile中的目标。</p>
+<ul class="simple">
+<li><p>all:这个伪目标是所有目标的目标，其功能一般是编译所有的目标。</p></li>
+<li><p>clean:这个伪目标功能是删除所有被make创建的文件。</p></li>
+<li><p>install:这个伪目标功能是安装已编译好的程序，其实就是把目标执行文件拷贝到指定的目标中去。</p></li>
+<li><p>print:这个伪目标的功能是例出改变过的源文件。</p></li>
+<li><p>tar:这个伪目标功能是把源程序打包备份。也就是一个tar文件。</p></li>
+<li><p>dist:这个伪目标功能是创建一个压缩文件，一般是把tar文件压成Z文件。或是gz文件。</p></li>
+<li><p>TAGS:这个伪目标功能是更新所有的目标，以备完整地重编译使用。</p></li>
+<li><p>check和test:这两个伪目标一般用来测试makefile的流程。</p></li>
+</ul>
+<p>当然一个项目的makefile中也不一定要书写这样的目标，这些东西都是GNU的东西，但是我想，GNU搞出这些东西一定有其可取之处（等你的 UNIX下的程序文件一多时你就会发现这些功能很有用了），这里只不过是说明了，如果你要书写这种功能，最好使用这种名字命名你的目标，这样规范一些，规范的好处就是——不用解释，大家都明白。而且如果你的makefile中有这些功能，一是很实用，二是可以显得你的makefile很专业（不是那种初学者的作品）。</p>
+</section>
+<section id="id3">
+<h2>检查规则<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>有时候，我们不想让我们的makefile中的规则执行起来，我们只想检查一下我们的命令，或是执行的序列。于是我们可以使用make命令的下述参数：</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-n</span></code>, <code class="docutils literal notranslate"><span class="pre">--just-print</span></code>, <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code>, <code class="docutils literal notranslate"><span class="pre">--recon</span></code></dt><dd><p>不执行参数，这些参数只是打印命令，不管目标是否更新，把规则和连带规则下的命令打印出来，但不执行，这些参数对于我们调试makefile很有用处。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-t</span></code>, <code class="docutils literal notranslate"><span class="pre">--touch</span></code></dt><dd><p>这个参数的意思就是把目标文件的时间更新，但不更改目标文件。也就是说，make假装编译目标，但不是真正的编译目标，只是把目标变成已编译过的状态。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-q</span></code>, <code class="docutils literal notranslate"><span class="pre">--question</span></code></dt><dd><p>这个参数的行为是找目标的意思，也就是说，如果目标存在，那么其什么也不会输出，当然也不会执行编译，如果目标不存在，其会打印出一条出错信息。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-W</span> <span class="pre">&lt;file&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">--what-if=&lt;file&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">--assume-new=&lt;file&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">--new-file=&lt;file&gt;</span></code></dt><dd><p>这个参数需要指定一个文件。一般是是源文件（或依赖文件），Make会根据规则推导来运行依赖于这个文件的命令，一般来说，可以和“-n”参数一同使用，来查看这个依赖文件所发生的规则命令。</p>
+</dd>
+</dl>
+<p>另外一个很有意思的用法是结合 <code class="docutils literal notranslate"><span class="pre">-p</span></code> 和 <code class="docutils literal notranslate"><span class="pre">-v</span></code> 来输出makefile被执行时的信息（这个将在后面讲述）。</p>
+</section>
+<section id="id4">
+<h2>make的参数<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>下面列举了所有GNU make 3.80版的参数定义。其它版本和产商的make大同小异，不过其它产商的make的具体参数还是请参考各自的产品文档。</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">-b</span></code>, <code class="docutils literal notranslate"><span class="pre">-m</span></code></dt><dd><p>这两个参数的作用是忽略和其它版本make的兼容性。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-B</span></code>, <code class="docutils literal notranslate"><span class="pre">--always-make</span></code></dt><dd><p>认为所有的目标都需要更新（重编译）。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-C</span></code> <em>&lt;dir&gt;</em>, <code class="docutils literal notranslate"><span class="pre">--directory</span></code>=<em>&lt;dir&gt;</em></dt><dd><p>指定读取makefile的目录。如果有多个“-C”参数，make的解释是后面的路径以前面的作为相对路径，并以最后的目录作为被指定目录。如：“make -C ~hchen/test -C prog”等价于“make -C ~hchen/test/prog”。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-debug</span></code>[=<em>&lt;options&gt;</em>]</dt><dd><p>输出make的调试信息。它有几种不同的级别可供选择，如果没有参数，那就是输出最简单的调试信息。下面是&lt;options&gt;的取值：</p>
+<ul class="simple">
+<li><p>a: 也就是all，输出所有的调试信息。（会非常的多）</p></li>
+<li><p>b: 也就是basic，只输出简单的调试信息。即输出不需要重编译的目标。</p></li>
+<li><p>v: 也就是verbose，在b选项的级别之上。输出的信息包括哪个makefile被解析，不需要被重编译的依赖文件（或是依赖目标）等。</p></li>
+<li><p>i: 也就是implicit，输出所有的隐含规则。</p></li>
+<li><p>j: 也就是jobs，输出执行规则中命令的详细信息，如命令的PID、返回码等。</p></li>
+<li><p>m: 也就是makefile，输出make读取makefile，更新makefile，执行makefile的信息。</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-d</span></code></dt><dd><p>相当于“–debug=a”。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-e</span></code>, <code class="docutils literal notranslate"><span class="pre">--environment-overrides</span></code></dt><dd><p>指明环境变量的值覆盖makefile中定义的变量的值。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-f</span></code>=<em>&lt;file&gt;</em>, <code class="docutils literal notranslate"><span class="pre">--file</span></code>=<em>&lt;file&gt;</em>, <code class="docutils literal notranslate"><span class="pre">--makefile</span></code>=<em>&lt;file&gt;</em></dt><dd><p>指定需要执行的makefile。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-h</span></code>, <code class="docutils literal notranslate"><span class="pre">--help</span></code></dt><dd><p>显示帮助信息。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-i</span></code> , <code class="docutils literal notranslate"><span class="pre">--ignore-errors</span></code></dt><dd><p>在执行时忽略所有的错误。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-I</span></code> <em>&lt;dir&gt;</em>, <code class="docutils literal notranslate"><span class="pre">--include-dir</span></code>=<em>&lt;dir&gt;</em></dt><dd><p>指定一个被包含makefile的搜索目标。可以使用多个“-I”参数来指定多个目录。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-j</span></code> [<em>&lt;jobsnum&gt;</em>], <code class="docutils literal notranslate"><span class="pre">--jobs</span></code>[=<em>&lt;jobsnum&gt;</em>]</dt><dd><p>指同时运行命令的个数。如果没有这个参数，make运行命令时能运行多少就运行多少。如果有一个以上的“-j”参数，那么仅最后一个“-j”才是有效的。（注意这个参数在MS-DOS中是无用的）</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-k</span></code>, <code class="docutils literal notranslate"><span class="pre">--keep-going</span></code></dt><dd><p>出错也不停止运行。如果生成一个目标失败了，那么依赖于其上的目标就不会被执行了。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-l</span></code> <em>&lt;load&gt;</em>, <code class="docutils literal notranslate"><span class="pre">--load-average</span></code>[=<em>&lt;load&gt;</em>], <code class="docutils literal notranslate"><span class="pre">-max-load</span></code>[=<em>&lt;load&gt;</em>]</dt><dd><p>指定make运行命令的负载。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-n</span></code>, <code class="docutils literal notranslate"><span class="pre">--just-print</span></code>, <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code>, <code class="docutils literal notranslate"><span class="pre">--recon</span></code></dt><dd><p>仅输出执行过程中的命令序列，但并不执行。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-o</span></code> <em>&lt;file&gt;</em>, <code class="docutils literal notranslate"><span class="pre">--old-file</span></code>=<em>&lt;file&gt;</em>, <code class="docutils literal notranslate"><span class="pre">--assume-old</span></code>=<em>&lt;file&gt;</em></dt><dd><p>不重新生成的指定的&lt;file&gt;，即使这个目标的依赖文件新于它。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-p</span></code>, <code class="docutils literal notranslate"><span class="pre">--print-data-base</span></code></dt><dd><p>输出makefile中的所有数据，包括所有的规则和变量。这个参数会让一个简单的makefile都会输出一堆信息。如果你只是想输出信息而不想执行makefile，你可以使用“make -qp”命令。如果你想查看执行makefile前的预设变量和规则，你可以使用 “make –p –f /dev/null”。这个参数输出的信息会包含着你的makefile文件的文件名和行号，所以，用这个参数来调试你的 makefile会是很有用的，特别是当你的环境变量很复杂的时候。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-q</span></code>, <code class="docutils literal notranslate"><span class="pre">--question</span></code></dt><dd><p>不运行命令，也不输出。仅仅是检查所指定的目标是否需要更新。如果是0则说明要更新，如果是2则说明有错误发生。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-r</span></code>, <code class="docutils literal notranslate"><span class="pre">--no-builtin-rules</span></code></dt><dd><p>禁止make使用任何隐含规则。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-R</span></code>, <code class="docutils literal notranslate"><span class="pre">--no-builtin-variabes</span></code></dt><dd><p>禁止make使用任何作用于变量上的隐含规则。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-s</span></code>, <code class="docutils literal notranslate"><span class="pre">--silent</span></code>, <code class="docutils literal notranslate"><span class="pre">--quiet</span></code></dt><dd><p>在命令运行时不输出命令的输出。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-S</span></code>, <code class="docutils literal notranslate"><span class="pre">--no-keep-going</span></code>, <code class="docutils literal notranslate"><span class="pre">--stop</span></code></dt><dd><p>取消“-k”选项的作用。因为有些时候，make的选项是从环境变量“MAKEFLAGS”中继承下来的。所以你可以在命令行中使用这个参数来让环境变量中的“-k”选项失效。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-t</span></code>, <code class="docutils literal notranslate"><span class="pre">--touch</span></code></dt><dd><p>相当于UNIX的touch命令，只是把目标的修改日期变成最新的，也就是阻止生成目标的命令运行。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-v</span></code>, <code class="docutils literal notranslate"><span class="pre">--version</span></code></dt><dd><p>输出make程序的版本、版权等关于make的信息。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-w</span></code>, <code class="docutils literal notranslate"><span class="pre">--print-directory</span></code></dt><dd><p>输出运行makefile之前和之后的信息。这个参数对于跟踪嵌套式调用make时很有用。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--no-print-directory</span></code></dt><dd><p>禁止“-w”选项。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">-W</span></code> <em>&lt;file&gt;</em>, <code class="docutils literal notranslate"><span class="pre">--what-if</span></code>=<em>&lt;file&gt;</em>, <code class="docutils literal notranslate"><span class="pre">--new-file</span></code>=<em>&lt;file&gt;</em>, <code class="docutils literal notranslate"><span class="pre">--assume-file</span></code>=<em>&lt;file&gt;</em></dt><dd><p>假定目标&lt;file&gt;;需要更新，如果和“-n”选项使用，那么这个参数会输出该目标更新时的运行动作。如果没有“-n”那么就像运行UNIX的“touch”命令一样，使得&lt;file&gt;;的修改时间为当前时间。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">--warn-undefined-variables</span></code></dt><dd><p>只要make发现有未定义的变量，那么就输出警告信息。</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="functions.html" class="btn btn-neutral float-left" title="使用函数" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="implicit_rules.html" class="btn btn-neutral float-right" title="隐含规则" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2014-2019, 作者：陈皓；排版：SeisMan.
+      <span class="lastupdated">最后更新于 2024年10月15日.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>使用make更新函数库文件 &mdash; 跟我一起写Makefile 1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/documentation_options.js?v=f115507d"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="后序" href="postscript.html" />
+    <link rel="prev" title="隐含规则" href="implicit_rules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            跟我一起写Makefile
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">makefile介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">书写规则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recipes.html">书写命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variables.html">使用变量</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionals.html">使用条件判断</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">使用函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="invoke.html">make 的运行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implicit_rules.html">隐含规则</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">使用make更新函数库文件</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">函数库文件的成员</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">函数库成员的隐含规则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">函数库文件的后缀规则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">注意事项</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="postscript.html">后序</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">跟我一起写Makefile</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">使用make更新函数库文件</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/archives.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="make">
+<h1>使用make更新函数库文件<a class="headerlink" href="#make" title="Link to this heading">¶</a></h1>
+<p>函数库文件也就是对Object文件（程序编译的中间文件）的打包文件。在Unix下，一般是由命令 <code class="docutils literal notranslate"><span class="pre">ar</span></code> 来完成打包工作。</p>
+<section id="id1">
+<h2>函数库文件的成员<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>一个函数库文件由多个文件组成。你可以用如下格式指定函数库文件及其组成:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">archive</span><span class="p">(</span><span class="n">member</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>这个不是一个命令，而一个目标和依赖的定义。一般来说，这种用法基本上就是为了
+<code class="docutils literal notranslate"><span class="pre">ar</span></code> 命令来服务的。如:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">foolib</span><span class="p">(</span><span class="n">hack</span><span class="o">.</span><span class="n">o</span><span class="p">)</span> <span class="p">:</span> <span class="n">hack</span><span class="o">.</span><span class="n">o</span>
+    <span class="n">ar</span> <span class="n">cr</span> <span class="n">foolib</span> <span class="n">hack</span><span class="o">.</span><span class="n">o</span>
+</pre></div>
+</div>
+<p>如果要指定多个member，那就以空格分开，如:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">foolib</span><span class="p">(</span><span class="n">hack</span><span class="o">.</span><span class="n">o</span> <span class="n">kludge</span><span class="o">.</span><span class="n">o</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>其等价于:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">foolib</span><span class="p">(</span><span class="n">hack</span><span class="o">.</span><span class="n">o</span><span class="p">)</span> <span class="n">foolib</span><span class="p">(</span><span class="n">kludge</span><span class="o">.</span><span class="n">o</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>你还可以使用Shell的文件通配符来定义，如:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">foolib</span><span class="p">(</span><span class="o">*.</span><span class="n">o</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>函数库成员的隐含规则<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<p>当make搜索一个目标的隐含规则时，一个特殊的特性是，如果这个目标是  <code class="docutils literal notranslate"><span class="pre">a(m)</span></code> 形式的，其会把目标变成 <code class="docutils literal notranslate"><span class="pre">(m)</span></code> 。于是，如果我们的成员是 <code class="docutils literal notranslate"><span class="pre">%.o</span></code> 的模式定义，并且如果我们使用 <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">foo.a(bar.o)</span></code> 的形式调用Makefile时，隐含规则会去找 <code class="docutils literal notranslate"><span class="pre">bar.o</span></code> 的规则，如果没有定义 <code class="docutils literal notranslate"><span class="pre">bar.o</span></code> 的规则，那么内建隐含规则生效，make会去找 <code class="docutils literal notranslate"><span class="pre">bar.c</span></code>
+文件来生成 <code class="docutils literal notranslate"><span class="pre">bar.o</span></code> ，如果找得到的话，make执行的命令大致如下:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cc</span> <span class="o">-</span><span class="n">c</span> <span class="n">bar</span><span class="o">.</span><span class="n">c</span> <span class="o">-</span><span class="n">o</span> <span class="n">bar</span><span class="o">.</span><span class="n">o</span>
+<span class="n">ar</span> <span class="n">r</span> <span class="n">foo</span><span class="o">.</span><span class="n">a</span> <span class="n">bar</span><span class="o">.</span><span class="n">o</span>
+<span class="n">rm</span> <span class="o">-</span><span class="n">f</span> <span class="n">bar</span><span class="o">.</span><span class="n">o</span>
+</pre></div>
+</div>
+<p>还有一个变量要注意的是 <code class="docutils literal notranslate"><span class="pre">$%</span></code> ，这是专属函数库文件的自动化变量，有关其说明请参见“自动化变量”一节。</p>
+</section>
+<section id="id3">
+<h2>函数库文件的后缀规则<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<p>你可以使用“后缀规则”和“隐含规则”来生成函数库打包文件，如：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">.c.a</span><span class="o">:</span>
+<span class="w">    </span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span><span class="k">$(</span>CFLAGS<span class="k">)</span><span class="w"> </span><span class="k">$(</span>CPPFLAGS<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span>$&lt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">$*</span>.o
+<span class="w">    </span><span class="k">$(</span>AR<span class="k">)</span><span class="w"> </span>r<span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="nv">$*</span>.o
+<span class="w">    </span><span class="k">$(</span>RM<span class="k">)</span><span class="w"> </span><span class="nv">$*</span>.o
+</pre></div>
+</div>
+<p>其等效于：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">(%.o) </span><span class="o">:</span><span class="w"> </span>%.<span class="n">c</span>
+<span class="w">    </span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span><span class="k">$(</span>CFLAGS<span class="k">)</span><span class="w"> </span><span class="k">$(</span>CPPFLAGS<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span>$&lt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">$*</span>.o
+<span class="w">    </span><span class="k">$(</span>AR<span class="k">)</span><span class="w"> </span>r<span class="w"> </span><span class="nv">$@</span><span class="w"> </span><span class="nv">$*</span>.o
+<span class="w">    </span><span class="k">$(</span>RM<span class="k">)</span><span class="w"> </span><span class="nv">$*</span>.o
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>注意事项<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>在进行函数库打包文件生成时，请小心使用make的并行机制（ <code class="docutils literal notranslate"><span class="pre">-j</span></code> 参数）。如果多个
+<code class="docutils literal notranslate"><span class="pre">ar</span></code> 命令在同一时间运行在同一个函数库打包文件上，就很有可以损坏这个函数库文件。所以，在make未来的版本中，应该提供一种机制来避免并行操作发生在函数打包文件上。</p>
+<p>但就目前而言，你还是应该不要尽量不要使用 <code class="docutils literal notranslate"><span class="pre">-j</span></code> 参数。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="implicit_rules.html" class="btn btn-neutral float-left" title="隐含规则" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="postscript.html" class="btn btn-neutral float-right" title="后序" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2014-2019, 作者：陈皓；排版：SeisMan.
+      <span class="lastupdated">最后更新于 2024年10月15日.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

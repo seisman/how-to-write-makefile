@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>书写规则 &mdash; 跟我一起写Makefile 1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/documentation_options.js?v=f115507d"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="书写命令" href="recipes.html" />
+    <link rel="prev" title="makefile介绍" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            跟我一起写Makefile
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">makefile介绍</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">书写规则</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">规则举例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">规则的语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">在规则中使用通配符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">文件搜寻</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">伪目标</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">多目标</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">静态模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">自动生成依赖性</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="recipes.html">书写命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variables.html">使用变量</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionals.html">使用条件判断</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">使用函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="invoke.html">make 的运行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implicit_rules.html">隐含规则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="archives.html">使用make更新函数库文件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postscript.html">后序</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">跟我一起写Makefile</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">书写规则</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/rules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>书写规则<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h1>
+<p>规则包含两个部分，一个是依赖关系，一个是生成目标的方法。</p>
+<p>在Makefile中，规则的顺序是很重要的，因为，Makefile中只应该有一个最终目标，其它的目标都是被这个目标所连带出来的，所以一定要让make知道你的最终目标是什么。一般来说，定义在Makefile中的目标可能会有很多，但是第一条规则中的目标将被确立为最终的目标。如果第一条规则中的目标有很多个，那么，第一个目标会成为最终的目标。make所完成的也就是这个目标。</p>
+<p>好了，还是让我们来看一看如何书写规则。</p>
+<section id="id2">
+<h2>规则举例<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">foo.o</span><span class="o">:</span><span class="w"> </span><span class="n">foo</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span>       <span class="c"># foo模块</span>
+<span class="w">    </span>cc<span class="w"> </span>-c<span class="w"> </span>-g<span class="w"> </span>foo.c
+</pre></div>
+</div>
+<p>看到这个例子，各位应该不是很陌生了，前面也已说过， <code class="docutils literal notranslate"><span class="pre">foo.o</span></code> 是我们的目标， <code class="docutils literal notranslate"><span class="pre">foo.c</span></code> 和
+<code class="docutils literal notranslate"><span class="pre">defs.h</span></code> 是目标所依赖的源文件，而只有一个命令 <code class="docutils literal notranslate"><span class="pre">cc</span> <span class="pre">-c</span> <span class="pre">-g</span> <span class="pre">foo.c</span></code> （以Tab键开头）。这个规则告诉我们两件事：</p>
+<ol class="arabic simple">
+<li><p>文件的依赖关系， <code class="docutils literal notranslate"><span class="pre">foo.o</span></code> 依赖于 <code class="docutils literal notranslate"><span class="pre">foo.c</span></code> 和 <code class="docutils literal notranslate"><span class="pre">defs.h</span></code> 的文件，如果 <code class="docutils literal notranslate"><span class="pre">foo.c</span></code>
+和 <code class="docutils literal notranslate"><span class="pre">defs.h</span></code> 的文件日期要比 <code class="docutils literal notranslate"><span class="pre">foo.o</span></code> 文件日期要新，或是 <code class="docutils literal notranslate"><span class="pre">foo.o</span></code> 不存在，那么依赖关系发生。</p></li>
+<li><p>生成或更新 <code class="docutils literal notranslate"><span class="pre">foo.o</span></code> 文件，就是那个cc命令。它说明了如何生成 <code class="docutils literal notranslate"><span class="pre">foo.o</span></code> 这个文件。（当然，foo.c文件include了defs.h文件）</p></li>
+</ol>
+</section>
+<section id="id3">
+<h2>规则的语法<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">targets </span><span class="o">:</span><span class="w"> </span><span class="n">prerequisites</span>
+<span class="w">    </span><span class="nb">command</span>
+<span class="w">    </span>...
+</pre></div>
+</div>
+<p>或是这样：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">targets </span><span class="o">:</span><span class="w"> </span><span class="n">prerequisites</span> ; <span class="n">command</span>
+<span class="w">    </span><span class="nb">command</span>
+<span class="w">    </span>...
+</pre></div>
+</div>
+<p>targets是文件名，以空格分开，可以使用通配符。一般来说，我们的目标基本上是一个文件，但也有可能是多个文件。</p>
+<p>command是命令行，如果其不与“target:prerequisites”在一行，那么，必须以 <code class="docutils literal notranslate"><span class="pre">Tab</span></code> 键开头，如果和prerequisites在一行，那么可以用分号做为分隔。（见上）</p>
+<p>prerequisites也就是目标所依赖的文件（或依赖目标）。如果其中的某个文件要比目标文件要新，那么，目标就被认为是“过时的”，被认为是需要重生成的。这个在前面已经讲过了。</p>
+<p>如果命令太长，你可以使用反斜杠（ <code class="docutils literal notranslate"><span class="pre">\</span></code> ）作为换行符。make对一行上有多少个字符没有限制。规则告诉make两件事，文件的依赖关系和如何生成目标文件。</p>
+<p>一般来说，make会以UNIX的标准Shell，也就是 <code class="docutils literal notranslate"><span class="pre">/bin/sh</span></code> 来执行命令。</p>
+</section>
+<section id="id4">
+<h2>在规则中使用通配符<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>如果我们想定义一系列比较类似的文件，我们很自然地就想起使用通配符。make支持三个通配符：
+<code class="docutils literal notranslate"><span class="pre">*</span></code> ， <code class="docutils literal notranslate"><span class="pre">?</span></code> 和 <code class="docutils literal notranslate"><span class="pre">~</span></code> 。这是和Unix的B-Shell是相同的。</p>
+<p>波浪号（ <code class="docutils literal notranslate"><span class="pre">~</span></code> ）字符在文件名中也有比较特殊的用途。如果是 <code class="docutils literal notranslate"><span class="pre">~/test</span></code> ，这就表示当前用户的 <code class="docutils literal notranslate"><span class="pre">$HOME</span></code> 目录下的test目录。而 <code class="docutils literal notranslate"><span class="pre">~hchen/test</span></code> 则表示用户hchen的宿主目录下的test
+目录。（这些都是Unix下的小知识了，make也支持）而在Windows或是 MS-DOS下，用户没有宿主目录，那么波浪号所指的目录则根据环境变量“HOME”而定。</p>
+<p>通配符代替了你一系列的文件，如 <code class="docutils literal notranslate"><span class="pre">*.c</span></code> 表示所有后缀为c的文件。一个需要我们注意的是，如果我们的文件名中有通配符，如： <code class="docutils literal notranslate"><span class="pre">*</span></code> ，那么可以用转义字符 <code class="docutils literal notranslate"><span class="pre">\</span></code> ，如 <code class="docutils literal notranslate"><span class="pre">\*</span></code> 来表示真实的 <code class="docutils literal notranslate"><span class="pre">*</span></code>
+字符，而不是任意长度的字符串。</p>
+<p>好吧，还是先来看几个例子吧：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">clean</span><span class="o">:</span>
+<span class="w">    </span>rm<span class="w"> </span>-f<span class="w"> </span>*.o
+</pre></div>
+</div>
+<p>其实在这个clean:后面可以加上你想做的一些事情，如果你想看到在编译完后看看main.c的源代码，你可以在加上cat这个命令，例子如下：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">clean</span><span class="o">:</span>
+<span class="w">    </span>cat<span class="w"> </span>main.c
+<span class="w">    </span>rm<span class="w"> </span>-f<span class="w"> </span>*.o
+</pre></div>
+</div>
+<p>其结果你试一下就知道的。 上面这个例子我不不多说了，这是操作系统Shell所支持的通配符。这是在命令中的通配符。</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">print</span><span class="o">:</span><span class="w"> </span>*.<span class="n">c</span>
+<span class="w">    </span>lpr<span class="w"> </span>-p<span class="w"> </span><span class="nv">$?</span>
+<span class="w">    </span>touch<span class="w"> </span>print
+</pre></div>
+</div>
+<p>上面这个例子说明了通配符也可以在我们的规则中，目标print依赖于所有的 <code class="docutils literal notranslate"><span class="pre">.c</span></code> 文件。其中的
+<code class="docutils literal notranslate"><span class="pre">$?</span></code> 是一个自动化变量，我会在后面给你讲述。</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">objects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>*.o
+</pre></div>
+</div>
+<p>上面这个例子，表示了通配符同样可以用在变量中。并不是说 <code class="docutils literal notranslate"><span class="pre">*.o</span></code> 会展开，不！objects的值就是
+<code class="docutils literal notranslate"><span class="pre">*.o</span></code> 。Makefile中的变量其实就是C/C++中的宏。如果你要让通配符在变量中展开，也就是让objects的值是所有 <code class="docutils literal notranslate"><span class="pre">.o</span></code> 的文件名的集合，那么，你可以这样：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">objects</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span>*.o<span class="k">)</span>
+</pre></div>
+</div>
+<p>另给一个变量使用通配符的例子：</p>
+<ol class="arabic">
+<li><p>列出一确定文件夹中的所有 <code class="docutils literal notranslate"><span class="pre">.c</span></code> 文件。</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">objects</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>wildcard<span class="w"> </span>*.c<span class="k">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>列出(1)中所有文件对应的 <code class="docutils literal notranslate"><span class="pre">.o</span></code> 文件，在（3）中我们可以看到它是由make自动编译出的:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$(patsubst %.c,%.o,$(wildcard *.c))
+</pre></div>
+</div>
+</li>
+<li><p>由(1)(2)两步，可写出编译并链接所有 <code class="docutils literal notranslate"><span class="pre">.c</span></code> 和 <code class="docutils literal notranslate"><span class="pre">.o</span></code> 文件</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">objects</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">$(</span>patsubst<span class="w"> </span>%.c,%.o,<span class="k">$(</span>wildcard<span class="w"> </span>*.c<span class="k">))</span>
+<span class="nf">foo </span><span class="o">:</span><span class="w"> </span><span class="k">$(</span><span class="nv">objects</span><span class="k">)</span>
+<span class="w">    </span>cc<span class="w"> </span>-o<span class="w"> </span>foo<span class="w"> </span><span class="k">$(</span>objects<span class="k">)</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>这种用法由关键字“wildcard”，“patsubst”指出，关于Makefile的关键字，我们将在后面讨论。</p>
+</section>
+<section id="id5">
+<h2>文件搜寻<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<p>在一些大的工程中，有大量的源文件，我们通常的做法是把这许多的源文件分类，并存放在不同的目录中。所以，当make需要去找寻文件的依赖关系时，你可以在文件前加上路径，但最好的方法是把一个路径告诉make，让make在自动去找。</p>
+<p>Makefile文件中的特殊变量 <code class="docutils literal notranslate"><span class="pre">VPATH</span></code> 就是完成这个功能的，如果没有指明这个变量，make只会在当前的目录中去找寻依赖文件和目标文件。如果定义了这个变量，那么，make就会在当前目录找不到的情况下，到所指定的目录中去找寻文件了。</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">VPATH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>src:../headers
+</pre></div>
+</div>
+<p>上面的定义指定两个目录，“src”和“../headers”，make会按照这个顺序进行搜索。目录由“冒号”分隔。（当然，当前目录永远是最高优先搜索的地方）</p>
+<p>另一个设置文件搜索路径的方法是使用make的“vpath”关键字（注意，它是全小写的），这不是变量，这是一个make的关键字，这和上面提到的那个VPATH变量很类似，但是它更为灵活。它可以指定不同的文件在不同的搜索目录中。这是一个很灵活的功能。它的使用方法有三种：</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">vpath</span> <span class="pre">&lt;pattern&gt;</span> <span class="pre">&lt;directories&gt;</span></code></dt><dd><p>为符合模式&lt;pattern&gt;的文件指定搜索目录&lt;directories&gt;。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">vpath</span> <span class="pre">&lt;pattern&gt;</span></code></dt><dd><p>清除符合模式&lt;pattern&gt;的文件的搜索目录。</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">vpath</span></code></dt><dd><p>清除所有已被设置好了的文件搜索目录。</p>
+</dd>
+</dl>
+<p>vpath使用方法中的&lt;pattern&gt;需要包含 <code class="docutils literal notranslate"><span class="pre">%</span></code> 字符。 <code class="docutils literal notranslate"><span class="pre">%</span></code> 的意思是匹配零或若干字符，（需引用
+<code class="docutils literal notranslate"><span class="pre">%</span></code> ，使用 <code class="docutils literal notranslate"><span class="pre">\</span></code> ）例如， <code class="docutils literal notranslate"><span class="pre">%.h</span></code> 表示所有以 <code class="docutils literal notranslate"><span class="pre">.h</span></code> 结尾的文件。&lt;pattern&gt;指定了要搜索的文件集，而&lt;directories&gt;则指定了&lt; pattern&gt;的文件集的搜索的目录。例如：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="cp">vpath %.h ../headers</span>
+</pre></div>
+</div>
+<p>该语句表示，要求make在“../headers”目录下搜索所有以 <code class="docutils literal notranslate"><span class="pre">.h</span></code> 结尾的文件。（如果某文件在当前目录没有找到的话）</p>
+<p>我们可以连续地使用vpath语句，以指定不同搜索策略。如果连续的vpath语句中出现了相同的&lt;pattern&gt;
+，或是被重复了的&lt;pattern&gt;，那么，make会按照vpath语句的先后顺序来执行搜索。如：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="cp">vpath %.c foo</span>
+<span class="cp">vpath %   blish</span>
+<span class="cp">vpath %.c bar</span>
+</pre></div>
+</div>
+<p>其表示 <code class="docutils literal notranslate"><span class="pre">.c</span></code>  结尾的文件，先在“foo”目录，然后是“blish”，最后是“bar”目录。</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="cp">vpath %.c foo:bar</span>
+<span class="cp">vpath %   blish</span>
+</pre></div>
+</div>
+<p>而上面的语句则表示 <code class="docutils literal notranslate"><span class="pre">.c</span></code> 结尾的文件，先在“foo”目录，然后是“bar”目录，最后才是“blish”目录。</p>
+</section>
+<section id="id6">
+<h2>伪目标<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
+<p>最早先的一个例子中，我们提到过一个“clean”的目标，这是一个“伪目标”，</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">clean</span><span class="o">:</span>
+<span class="w">    </span>rm<span class="w"> </span>*.o<span class="w"> </span>temp
+</pre></div>
+</div>
+<p>正像我们前面例子中的“clean”一样，既然我们生成了许多文件编译文件，我们也应该提供一个清除它们的“目标”以备完整地重编译而用。 （以“make clean”来使用该目标）</p>
+<p>因为，我们并不生成“clean”这个文件。“伪目标”并不是一个文件，只是一个标签，由于“伪目标”不是文件，所以make无法生成它的依赖关系和决定它是否要执行。我们只有通过显式地指明这个“目标”才能让其生效。当然，“伪目标”的取名不能和文件名重名，不然其就失去了“伪目标”的意义了。</p>
+<p>当然，为了避免和文件重名的这种情况，我们可以使用一个特殊的标记“.PHONY”来显式地指明一个目标是“伪目标”，向make说明，不管是否有这个文件，这个目标就是“伪目标”。</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">.PHONY </span><span class="o">:</span><span class="w"> </span><span class="n">clean</span>
+</pre></div>
+</div>
+<p>只要有这个声明，不管是否有“clean”文件，要运行“clean”这个目标，只有“make clean”这样。于是整个过程可以这样写：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">.PHONY </span><span class="o">:</span><span class="w"> </span><span class="n">clean</span>
+<span class="nf">clean </span><span class="o">:</span>
+<span class="w">    </span>rm<span class="w"> </span>*.o<span class="w"> </span>temp
+</pre></div>
+</div>
+<p>伪目标一般没有依赖的文件。但是，我们也可以为伪目标指定所依赖的文件。伪目标同样可以作为“默认目标”，只要将其放在第一个。一个示例就是，如果你的Makefile需要一口气生成若干个可执行文件，但你只想简单地敲一个make完事，并且，所有的目标文件都写在一个Makefile中，那么你可以使用“伪目标”这个特性：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">all </span><span class="o">:</span><span class="w"> </span><span class="n">prog</span>1 <span class="n">prog</span>2 <span class="n">prog</span>3
+<span class="nf">.PHONY </span><span class="o">:</span><span class="w"> </span><span class="n">all</span>
+
+<span class="nf">prog1 </span><span class="o">:</span><span class="w"> </span><span class="n">prog</span>1.<span class="n">o</span> <span class="n">utils</span>.<span class="n">o</span>
+<span class="w">    </span>cc<span class="w"> </span>-o<span class="w"> </span>prog1<span class="w"> </span>prog1.o<span class="w"> </span>utils.o
+
+<span class="nf">prog2 </span><span class="o">:</span><span class="w"> </span><span class="n">prog</span>2.<span class="n">o</span>
+<span class="w">    </span>cc<span class="w"> </span>-o<span class="w"> </span>prog2<span class="w"> </span>prog2.o
+
+<span class="nf">prog3 </span><span class="o">:</span><span class="w"> </span><span class="n">prog</span>3.<span class="n">o</span> <span class="n">sort</span>.<span class="n">o</span> <span class="n">utils</span>.<span class="n">o</span>
+<span class="w">    </span>cc<span class="w"> </span>-o<span class="w"> </span>prog3<span class="w"> </span>prog3.o<span class="w"> </span>sort.o<span class="w"> </span>utils.o
+</pre></div>
+</div>
+<p>我们知道，Makefile中的第一个目标会被作为其默认目标。我们声明了一个“all”的伪目标，其依赖于其它三个目标。由于默认目标的特性是，总是被执行的，但由于“all”又是一个伪目标，伪目标只是一个标签不会生成文件，所以不会有“all”文件产生。于是，其它三个目标的规则总是会被决议。也就达到了我们一口气生成多个目标的目的。 <code class="docutils literal notranslate"><span class="pre">.PHONY</span> <span class="pre">:</span> <span class="pre">all</span></code> 声明了“all”这个目标为“伪目标”。（注：这里的显式“.PHONY : all” 不写的话一般情况也可以正确的执行，这样make可通过隐式规则推导出， “all” 是一个伪目标，执行make不会生成“all”文件，而执行后面的多个目标。建议：显式写出是一个好习惯。）</p>
+<p>随便提一句，从上面的例子我们可以看出，目标也可以成为依赖。所以，伪目标同样也可成为依赖。看下面的例子：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">.PHONY </span><span class="o">:</span><span class="w"> </span><span class="n">cleanall</span> <span class="n">cleanobj</span> <span class="n">cleandiff</span>
+
+<span class="nf">cleanall </span><span class="o">:</span><span class="w"> </span><span class="n">cleanobj</span> <span class="n">cleandiff</span>
+<span class="w">    </span>rm<span class="w"> </span>program
+
+<span class="nf">cleanobj </span><span class="o">:</span>
+<span class="w">    </span>rm<span class="w"> </span>*.o
+
+<span class="nf">cleandiff </span><span class="o">:</span>
+<span class="w">    </span>rm<span class="w"> </span>*.diff
+</pre></div>
+</div>
+<p>“make cleanall”将清除所有要被清除的文件。“cleanobj”和“cleandiff”这两个伪目标有点像“子程序”的意思。我们可以输入“make cleanall”和“make cleanobj”和“make cleandiff”命令来达到清除不同种类文件的目的。</p>
+</section>
+<section id="id7">
+<h2>多目标<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h2>
+<p>Makefile的规则中的目标可以不止一个，其支持多目标，有可能我们的多个目标同时依赖于一个文件，并且其生成的命令大体类似。于是我们就能把其合并起来。当然，多个目标的生成规则的执行命令不是同一个，这可能会给我们带来麻烦，不过好在我们可以使用一个自动化变量 <code class="docutils literal notranslate"><span class="pre">$&#64;</span></code> （关于自动化变量，将在后面讲述），这个变量表示着目前规则中所有的目标的集合，这样说可能很抽象，还是看一个例子吧。</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">bigoutput littleoutput </span><span class="o">:</span><span class="w"> </span><span class="n">text</span>.<span class="n">g</span>
+<span class="w">    </span>generate<span class="w"> </span>text.g<span class="w"> </span>-<span class="k">$(</span>subst<span class="w"> </span>output,,<span class="nv">$@</span><span class="k">)</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$@</span>
+</pre></div>
+</div>
+<p>上述规则等价于：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">bigoutput </span><span class="o">:</span><span class="w"> </span><span class="n">text</span>.<span class="n">g</span>
+<span class="w">    </span>generate<span class="w"> </span>text.g<span class="w"> </span>-big<span class="w"> </span>&gt;<span class="w"> </span>bigoutput
+<span class="nf">littleoutput </span><span class="o">:</span><span class="w"> </span><span class="n">text</span>.<span class="n">g</span>
+<span class="w">    </span>generate<span class="w"> </span>text.g<span class="w"> </span>-little<span class="w"> </span>&gt;<span class="w"> </span>littleoutput
+</pre></div>
+</div>
+<p>其中， <code class="docutils literal notranslate"><span class="pre">-$(subst</span> <span class="pre">output,,$&#64;)</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">$</span></code> 表示执行一个Makefile的函数，函数名为subst，后面的为参数。关于函数，将在后面讲述。这里的这个函数是替换字符串的意思， <code class="docutils literal notranslate"><span class="pre">$&#64;</span></code> 表示目标的集合，就像一个数组， <code class="docutils literal notranslate"><span class="pre">$&#64;</span></code> 依次取出目标，并执于命令。</p>
+</section>
+<section id="id8">
+<h2>静态模式<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
+<p>静态模式可以更加容易地定义多目标的规则，可以让我们的规则变得更加的有弹性和灵活。我们还是先来看一下语法：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">&lt;targets ...&gt; </span><span class="o">:</span><span class="w"> </span>&lt;<span class="n">target</span>-<span class="n">pattern</span>&gt; : &lt;<span class="n">prereq</span>-<span class="n">patterns</span> ...&gt;
+<span class="w">    </span>&lt;commands&gt;
+<span class="w">    </span>...
+</pre></div>
+</div>
+<p>targets定义了一系列的目标文件，可以有通配符。是目标的一个集合。</p>
+<p>target-pattern是指明了targets的模式，也就是的目标集模式。</p>
+<p>prereq-patterns是目标的依赖模式，它对target-pattern形成的模式再进行一次依赖目标的定义。</p>
+<p>这样描述这三个东西，可能还是没有说清楚，还是举个例子来说明一下吧。如果我们的&lt;target-pattern&gt;定义成 <code class="docutils literal notranslate"><span class="pre">%.o</span></code> ，意思是我们的&lt;target&gt;;集合中都是以 <code class="docutils literal notranslate"><span class="pre">.o</span></code> 结尾的，而如果我们的&lt;prereq-patterns&gt;定义成 <code class="docutils literal notranslate"><span class="pre">%.c</span></code> ，意思是对&lt;target-pattern&gt;所形成的目标集进行二次定义，其计算方法是，取&lt;target-pattern&gt;模式中的 <code class="docutils literal notranslate"><span class="pre">%</span></code> （也就是去掉了 <code class="docutils literal notranslate"><span class="pre">.o</span></code> 这个结尾），并为其加上 <code class="docutils literal notranslate"><span class="pre">.c</span></code> 这个结尾，形成的新集合。</p>
+<p>所以，我们的“目标模式”或是“依赖模式”中都应该有 <code class="docutils literal notranslate"><span class="pre">%</span></code> 这个字符，如果你的文件名中有 <code class="docutils literal notranslate"><span class="pre">%</span></code> 那么你可以使用反斜杠 <code class="docutils literal notranslate"><span class="pre">\</span></code> 进行转义，来标明真实的 <code class="docutils literal notranslate"><span class="pre">%</span></code> 字符。</p>
+<p>看一个例子：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">objects</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>foo.o<span class="w"> </span>bar.o
+
+<span class="nf">all</span><span class="o">:</span><span class="w"> </span><span class="k">$(</span><span class="nv">objects</span><span class="k">)</span>
+
+<span class="nf">$(objects)</span><span class="o">:</span><span class="w"> </span>%.<span class="n">o</span>: %.<span class="n">c</span>
+<span class="w">    </span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span><span class="k">$(</span>CFLAGS<span class="k">)</span><span class="w"> </span>$&lt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">$@</span>
+</pre></div>
+</div>
+<p>上面的例子中，指明了我们的目标从$object中获取， <code class="docutils literal notranslate"><span class="pre">%.o</span></code> 表明要所有以 <code class="docutils literal notranslate"><span class="pre">.o</span></code> 结尾的目标，也就是 <code class="docutils literal notranslate"><span class="pre">foo.o</span> <span class="pre">bar.o</span></code> ，也就是变量 <code class="docutils literal notranslate"><span class="pre">$object</span></code> 集合的模式，而依赖模式 <code class="docutils literal notranslate"><span class="pre">%.c</span></code> 则取模式
+<code class="docutils literal notranslate"><span class="pre">%.o</span></code> 的 <code class="docutils literal notranslate"><span class="pre">%</span></code> ，也就是 <code class="docutils literal notranslate"><span class="pre">foo</span> <span class="pre">bar</span></code> ，并为其加下 <code class="docutils literal notranslate"><span class="pre">.c</span></code> 的后缀，于是，我们的依赖目标就是 <code class="docutils literal notranslate"><span class="pre">foo.c</span> <span class="pre">bar.c</span></code> 。而命令中的 <code class="docutils literal notranslate"><span class="pre">$&lt;</span></code> 和 <code class="docutils literal notranslate"><span class="pre">$&#64;</span></code> 则是自动化变量， <code class="docutils literal notranslate"><span class="pre">$&lt;</span></code> 表示第一个依赖文件，
+<code class="docutils literal notranslate"><span class="pre">$&#64;</span></code> 表示目标集（也就是“foo.o bar.o”）。于是，上面的规则展开后等价于下面的规则：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">foo.o </span><span class="o">:</span><span class="w"> </span><span class="n">foo</span>.<span class="n">c</span>
+<span class="w">    </span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span><span class="k">$(</span>CFLAGS<span class="k">)</span><span class="w"> </span>foo.c<span class="w"> </span>-o<span class="w"> </span>foo.o
+<span class="nf">bar.o </span><span class="o">:</span><span class="w"> </span><span class="n">bar</span>.<span class="n">c</span>
+<span class="w">    </span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span><span class="k">$(</span>CFLAGS<span class="k">)</span><span class="w"> </span>bar.c<span class="w"> </span>-o<span class="w"> </span>bar.o
+</pre></div>
+</div>
+<p>试想，如果我们的 <code class="docutils literal notranslate"><span class="pre">%.o</span></code> 有几百个，那么我们只要用这种很简单的“静态模式规则”就可以写完一堆规则，实在是太有效率了。“静态模式规则”的用法很灵活，如果用得好，那会是一个很强大的功能。再看一个例子：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>foo.elc<span class="w"> </span>bar.o<span class="w"> </span>lose.o
+
+<span class="nf">$(filter %.o,$(files))</span><span class="o">:</span><span class="w"> </span>%.<span class="n">o</span>: %.<span class="n">c</span>
+<span class="w">    </span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span>-c<span class="w"> </span><span class="k">$(</span>CFLAGS<span class="k">)</span><span class="w"> </span>$&lt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">$@</span>
+<span class="nf">$(filter %.elc,$(files))</span><span class="o">:</span><span class="w"> </span>%.<span class="n">elc</span>: %.<span class="n">el</span>
+<span class="w">    </span>emacs<span class="w"> </span>-f<span class="w"> </span>batch-byte-compile<span class="w"> </span>$&lt;
+</pre></div>
+</div>
+<p>$(filter %.o,$(files))表示调用Makefile的filter函数，过滤“$files”集，只要其中模式为“%.o”的内容。其它的内容，我就不用多说了吧。这个例子展示了Makefile中更大的弹性。</p>
+</section>
+<section id="id9">
+<h2>自动生成依赖性<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
+<p>在Makefile中，我们的依赖关系可能会需要包含一系列的头文件，比如，如果我们的main.c中有一句
+<code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;defs.h&quot;</span></code> ，那么我们的依赖关系应该是：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">main.o </span><span class="o">:</span><span class="w"> </span><span class="n">main</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span>
+</pre></div>
+</div>
+<p>但是，如果是一个比较大型的工程，你必需清楚哪些C文件包含了哪些头文件，并且，你在加入或删除头文件时，也需要小心地修改Makefile，这是一个很没有维护性的工作。为了避免这种繁重而又容易出错的事情，我们可以使用C/C++编译的一个功能。大多数的C/C++编译器都支持一个“-M”的选项，即自动找寻源文件中包含的头文件，并生成一个依赖关系。例如，如果我们执行下面的命令:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cc</span> <span class="o">-</span><span class="n">M</span> <span class="n">main</span><span class="o">.</span><span class="n">c</span>
+</pre></div>
+</div>
+<p>其输出是：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">main.o </span><span class="o">:</span><span class="w"> </span><span class="n">main</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span>
+</pre></div>
+</div>
+<p>于是由编译器自动生成的依赖关系，这样一来，你就不必再手动书写若干文件的依赖关系，而由编译器自动生成了。需要提醒一句的是，如果你使用GNU的C/C++编译器，你得用 <code class="docutils literal notranslate"><span class="pre">-MM</span></code> 参数，不然， <code class="docutils literal notranslate"><span class="pre">-M</span></code>
+参数会把一些标准库的头文件也包含进来。</p>
+<p>gcc -M main.c的输出是:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">main</span><span class="o">.</span><span class="n">o</span><span class="p">:</span> <span class="n">main</span><span class="o">.</span><span class="n">c</span> <span class="n">defs</span><span class="o">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">stdio</span><span class="o">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">features</span><span class="o">.</span><span class="n">h</span> \
+    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">sys</span><span class="o">/</span><span class="n">cdefs</span><span class="o">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">gnu</span><span class="o">/</span><span class="n">stubs</span><span class="o">.</span><span class="n">h</span> \
+    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">gcc</span><span class="o">-</span><span class="n">lib</span><span class="o">/</span><span class="n">i486</span><span class="o">-</span><span class="n">suse</span><span class="o">-</span><span class="n">linux</span><span class="o">/</span><span class="mf">2.95.3</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">stddef</span><span class="o">.</span><span class="n">h</span> \
+    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">bits</span><span class="o">/</span><span class="n">types</span><span class="o">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">bits</span><span class="o">/</span><span class="n">pthreadtypes</span><span class="o">.</span><span class="n">h</span> \
+    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">bits</span><span class="o">/</span><span class="n">sched</span><span class="o">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">libio</span><span class="o">.</span><span class="n">h</span> \
+    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">_G_config</span><span class="o">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">wchar</span><span class="o">.</span><span class="n">h</span> \
+    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">bits</span><span class="o">/</span><span class="n">wchar</span><span class="o">.</span><span class="n">h</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">gconv</span><span class="o">.</span><span class="n">h</span> \
+    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">gcc</span><span class="o">-</span><span class="n">lib</span><span class="o">/</span><span class="n">i486</span><span class="o">-</span><span class="n">suse</span><span class="o">-</span><span class="n">linux</span><span class="o">/</span><span class="mf">2.95.3</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">stdarg</span><span class="o">.</span><span class="n">h</span> \
+    <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">bits</span><span class="o">/</span><span class="n">stdio_lim</span><span class="o">.</span><span class="n">h</span>
+</pre></div>
+</div>
+<p>gcc -MM main.c的输出则是:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">main</span><span class="o">.</span><span class="n">o</span><span class="p">:</span> <span class="n">main</span><span class="o">.</span><span class="n">c</span> <span class="n">defs</span><span class="o">.</span><span class="n">h</span>
+</pre></div>
+</div>
+<p>那么，编译器的这个功能如何与我们的Makefile联系在一起呢。因为这样一来，我们的Makefile也要根据这些源文件重新生成，让 Makefile 自己依赖于源文件？这个功能并不现实，不过我们可以有其它手段来迂回地实现这一功能。GNU组织建议把编译器为每一个源文件的自动生成的依赖关系放到一个文件中，为每一个 <code class="docutils literal notranslate"><span class="pre">name.c</span></code> 的文件都生成一个 <code class="docutils literal notranslate"><span class="pre">name.d</span></code> 的Makefile文件， <code class="docutils literal notranslate"><span class="pre">.d</span></code> 文件中就存放对应
+<code class="docutils literal notranslate"><span class="pre">.c</span></code> 文件的依赖关系。</p>
+<p>于是，我们可以写出 <code class="docutils literal notranslate"><span class="pre">.c</span></code> 文件和 <code class="docutils literal notranslate"><span class="pre">.d</span></code> 文件的依赖关系，并让make自动更新或生成 <code class="docutils literal notranslate"><span class="pre">.d</span></code>
+文件，并把其包含在我们的主Makefile中，这样，我们就可以自动化地生成每个文件的依赖关系了。</p>
+<p>这里，我们给出了一个模式规则来产生 <code class="docutils literal notranslate"><span class="pre">.d</span></code> 文件：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">%.d</span><span class="o">:</span><span class="w"> </span>%.<span class="n">c</span>
+<span class="w">    </span>@set<span class="w"> </span>-e<span class="p">;</span><span class="w"> </span>rm<span class="w"> </span>-f<span class="w"> </span><span class="nv">$@</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="k">$(</span>CC<span class="k">)</span><span class="w"> </span>-M<span class="w"> </span><span class="k">$(</span>CPPFLAGS<span class="k">)</span><span class="w"> </span>$&lt;<span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$@</span>.<span class="nv">$$$$</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>sed<span class="w"> </span><span class="s1">&#39;s,\($*\)\.o[ :]*,\1.o $@ : ,g&#39;</span><span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$@</span>.<span class="nv">$$$$</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$@</span><span class="p">;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>rm<span class="w"> </span>-f<span class="w"> </span><span class="nv">$@</span>.<span class="nv">$$$$</span>
+</pre></div>
+</div>
+<p>这个规则的意思是，所有的 <code class="docutils literal notranslate"><span class="pre">.d</span></code> 文件依赖于 <code class="docutils literal notranslate"><span class="pre">.c</span></code> 文件， <code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-f</span> <span class="pre">$&#64;</span></code> 的意思是删除所有的目标，也就是 <code class="docutils literal notranslate"><span class="pre">.d</span></code> 文件，第二行的意思是，为每个依赖文件 <code class="docutils literal notranslate"><span class="pre">$&lt;</span></code> ，也就是 <code class="docutils literal notranslate"><span class="pre">.c</span></code> 文件生成依赖文件， <code class="docutils literal notranslate"><span class="pre">$&#64;</span></code> 表示模式 <code class="docutils literal notranslate"><span class="pre">%.d</span></code> 文件，如果有一个C文件是name.c，那么 <code class="docutils literal notranslate"><span class="pre">%</span></code> 就是
+<code class="docutils literal notranslate"><span class="pre">name</span></code> ， <code class="docutils literal notranslate"><span class="pre">$$$$</span></code> 意为一个随机编号，第二行生成的文件有可能是“name.d.12345”，第三行使用sed命令做了一个替换，关于sed命令的用法请参看相关的使用文档。第四行就是删除临时文件。</p>
+<p>总而言之，这个模式要做的事就是在编译器生成的依赖关系中加入 <code class="docutils literal notranslate"><span class="pre">.d</span></code> 文件的依赖，即把依赖关系：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">main.o </span><span class="o">:</span><span class="w"> </span><span class="n">main</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span>
+</pre></div>
+</div>
+<p>转成：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nf">main.o main.d </span><span class="o">:</span><span class="w"> </span><span class="n">main</span>.<span class="n">c</span> <span class="n">defs</span>.<span class="n">h</span>
+</pre></div>
+</div>
+<p>于是，我们的 <code class="docutils literal notranslate"><span class="pre">.d</span></code> 文件也会自动更新了，并会自动生成了，当然，你还可以在这个 <code class="docutils literal notranslate"><span class="pre">.d</span></code> 文件中加入的不只是依赖关系，包括生成的命令也可一并加入，让每个 <code class="docutils literal notranslate"><span class="pre">.d</span></code> 文件都包含一个完整的规则。一旦我们完成这个工作，接下来，我们就要把这些自动生成的规则放进我们的主Makefile中。我们可以使用Makefile的“include”命令，来引入别的Makefile文件（前面讲过），例如：</p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">sources</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>foo.c<span class="w"> </span>bar.c
+
+<span class="cp">include $(sources:.c=.d)</span>
+</pre></div>
+</div>
+<p>上述语句中的 <code class="docutils literal notranslate"><span class="pre">$(sources:.c=.d)</span></code> 中的 <code class="docutils literal notranslate"><span class="pre">.c=.d</span></code> 的意思是做一个替换，把变量
+<code class="docutils literal notranslate"><span class="pre">$(sources)</span></code> 所有 <code class="docutils literal notranslate"><span class="pre">.c</span></code> 的字串都替换成 <code class="docutils literal notranslate"><span class="pre">.d</span></code> ，关于这个“替换”的内容，在后面我会有更为详细的讲述。当然，你得注意次序，因为include是按次序来载入文件，最先载入的 <code class="docutils literal notranslate"><span class="pre">.d</span></code> 文件中的目标会成为默认目标。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction.html" class="btn btn-neutral float-left" title="makefile介绍" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="recipes.html" class="btn btn-neutral float-right" title="书写命令" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2014-2019, 作者：陈皓；排版：SeisMan.
+      <span class="lastupdated">最后更新于 2024年10月15日.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

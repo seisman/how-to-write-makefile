@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>跟我一起写Makefile &mdash; 跟我一起写Makefile 1.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/documentation_options.js?v=f115507d"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="概述" href="overview.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            跟我一起写Makefile
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">概述</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">makefile介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">书写规则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="recipes.html">书写命令</a></li>
+<li class="toctree-l1"><a class="reference internal" href="variables.html">使用变量</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionals.html">使用条件判断</a></li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">使用函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="invoke.html">make 的运行</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implicit_rules.html">隐含规则</a></li>
+<li class="toctree-l1"><a class="reference internal" href="archives.html">使用make更新函数库文件</a></li>
+<li class="toctree-l1"><a class="reference internal" href="postscript.html">后序</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">跟我一起写Makefile</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">跟我一起写Makefile</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="makefile">
+<h1>跟我一起写Makefile<a class="headerlink" href="#makefile" title="Link to this heading">¶</a></h1>
+<p><strong>本文中可能存在很多 typo 和小错误，欢迎 PR。</strong></p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">目录</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">概述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#id2">关于程序的编译和链接</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">makefile介绍</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#id1">makefile的规则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#id2">一个示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#make">make是如何工作的</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#id3">makefile中使用变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#id4">让make自动推导</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#id5">makefile的另一种风格</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#id6">清空目录的规则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#id7">Makefile里有什么？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#id8">Makefile的文件名</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#id9">包含其它Makefile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#makefiles">环境变量MAKEFILES</a></li>
+<li class="toctree-l2"><a class="reference internal" href="introduction.html#id10">make的工作方式</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rules.html">书写规则</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rules.html#id2">规则举例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rules.html#id3">规则的语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rules.html#id4">在规则中使用通配符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rules.html#id5">文件搜寻</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rules.html#id6">伪目标</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rules.html#id7">多目标</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rules.html#id8">静态模式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rules.html#id9">自动生成依赖性</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="recipes.html">书写命令</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html#id2">显示命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html#id3">命令执行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html#id4">命令出错</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html#make">嵌套执行make</a></li>
+<li class="toctree-l2"><a class="reference internal" href="recipes.html#id5">定义命令包</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="variables.html">使用变量</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variables.html#id2">变量的基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variables.html#id3">变量中的变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variables.html#id4">变量高级用法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variables.html#id5">追加变量值</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variables.html#override">override 指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variables.html#id6">多行变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variables.html#id7">环境变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variables.html#id8">目标变量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="variables.html#id9">模式变量</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="conditionals.html">使用条件判断</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="conditionals.html#id2">示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="conditionals.html#id3">语法</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="functions.html">使用函数</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#id2">函数的调用语法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#id3">字符串处理函数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#subst">subst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#patsubst">patsubst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#strip">strip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#findstring">findstring</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#filter">filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#filter-out">filter-out</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#sort">sort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#word">word</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#wordlist">wordlist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#words">words</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#firstword">firstword</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#id4">文件名操作函数</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#dir">dir</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#notdir">notdir</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#suffix">suffix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#basename">basename</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#addsuffix">addsuffix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#addprefix">addprefix</a></li>
+<li class="toctree-l3"><a class="reference internal" href="functions.html#join">join</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#foreach">foreach 函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#if">if 函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#call">call函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#origin">origin函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#shell">shell函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html#make">控制make的函数</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="invoke.html">make 的运行</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="invoke.html#id1">make的退出码</a></li>
+<li class="toctree-l2"><a class="reference internal" href="invoke.html#makefile">指定Makefile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="invoke.html#id2">指定目标</a></li>
+<li class="toctree-l2"><a class="reference internal" href="invoke.html#id3">检查规则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="invoke.html#id4">make的参数</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="implicit_rules.html">隐含规则</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="implicit_rules.html#id2">使用隐含规则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="implicit_rules.html#id3">隐含规则一览</a></li>
+<li class="toctree-l2"><a class="reference internal" href="implicit_rules.html#id4">隐含规则使用的变量</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="implicit_rules.html#id5">关于命令的变量。</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_rules.html#id6">关于命令参数的变量</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="implicit_rules.html#id7">隐含规则链</a></li>
+<li class="toctree-l2"><a class="reference internal" href="implicit_rules.html#id8">定义模式规则</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="implicit_rules.html#id9">模式规则介绍</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_rules.html#id10">模式规则示例</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_rules.html#id11">自动化变量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_rules.html#id12">模式的匹配</a></li>
+<li class="toctree-l3"><a class="reference internal" href="implicit_rules.html#id13">重载内建隐含规则</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="implicit_rules.html#id14">老式风格的“后缀规则”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="implicit_rules.html#id15">隐含规则搜索算法</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="archives.html">使用make更新函数库文件</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="archives.html#id1">函数库文件的成员</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archives.html#id2">函数库成员的隐含规则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archives.html#id3">函数库文件的后缀规则</a></li>
+<li class="toctree-l2"><a class="reference internal" href="archives.html#id4">注意事项</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="postscript.html">后序</a></li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="overview.html" class="btn btn-neutral float-right" title="概述" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2014-2019, 作者：陈皓；排版：SeisMan.
+      <span class="lastupdated">最后更新于 2024年10月15日.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
