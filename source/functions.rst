@@ -175,6 +175,8 @@ filter-out
 
         objects=main1.o foo.o main2.o bar.o
         mains=main1.o main2.o
+        foo: $(objects)
+            cc $(filter-out $(mains),$(objects)) -o foo
 
   ``$(filter-out $(mains),$(objects))`` 返回值是 ``foo.o bar.o`` 。
 
